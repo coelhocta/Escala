@@ -13,16 +13,16 @@ def num_data(d):
 
 
 def gera_nomes():
-    lin = aba_mil_ind.max_row
-    col = aba_mil_ind.max_column
-    for i in range(1, lin + 1):
-        nomes.append(aba_mil_ind.cell(i, 1).value)
+    lin = aba_inicio.max_row
+    col = aba_inicio.max_column
+    for i in range(8, lin - 8):
+        nomes.append(aba_inicio.cell(i, 1).value)
     return nomes
 
 
 def gera_periodo():
-    i = data_num(aba_per_fer['A2'].value)
-    f = data_num(aba_per_fer['B2'].value)
+    i = data_num(aba_inicio['B1'].value)
+    f = data_num(aba_inicio['C1'].value)
     while i <= f:
         periodo.append(i)
         i += 1
@@ -30,21 +30,21 @@ def gera_periodo():
 
 def gera_quadrinho():
     # Busca Roxa da Planilha
-    for r in aba_per_fer['B4':'AZ4']:
+    for r in aba_inicio['B3':'AZ3']:
         for c in r:
             if c.value != None:
                 data = data_num(c.value)
                 roxa.append(data)
 
     # Busca Vermelha da Planilha
-    for r in aba_per_fer['B5':'AZ5']:
+    for r in aba_inicio['B4':'AZ4']:
         for c in r:
             if c.value != None:
                 data = data_num(c.value)
                 vermelha.append(data)
 
     # Busca Marrom da Planilha
-    for r in aba_per_fer['C6':'AZ6']:
+    for r in aba_inicio['C5':'AZ5']:
         for c in r:
             if c.value != None:
                 data = data_num(c.value)
@@ -74,8 +74,7 @@ def gera_quadrinho():
 ##########################################
 # Lê o nome e as abas da planilha
 wb = openpyxl.load_workbook('Escala.xlsx')
-aba_mil_ind = wb['Militares.Indisponibilidades']
-aba_per_fer = wb['Periodo.Feriados']
+aba_inicio = wb['Inicio']
 aba_ver = wb['Vermelha']
 aba_pre = wb['Preta']
 aba_mar = wb['Marrom']
@@ -93,6 +92,7 @@ vermelha = []
 marrom = []
 roxa = []
 preta = []
+lastro_roxa = []
 
 ##########################################
 # Chamadas Funções
@@ -100,6 +100,20 @@ gera_nomes()
 gera_periodo()
 gera_quadrinho()
 
+##########################################
+tmp = {}
+tmp1 = []
+lin = aba_rox.max_row
+col = aba_rox.max_column
+for l in range(3, lin + 1):
+    for c in range(1, col):
+        tmp['Nome'] = aba_rox.cell(l, c).value
+        if (aba_rox.cell(l, c).value) != None:
+            tmp['Lastro'] = tmp1.append(aba_rox.cell(l, c))
+        lastro_roxa.append(tmp.copy())
+print(lastro_roxa)
+
+'''
 print(f'Nomes: {nomes}')
 print(f'Período: {periodo}')
 print(f'Roxa: {roxa}')
@@ -118,7 +132,7 @@ for a in periodo:
         cor = 'Preta'
     print(f'{cor:>8} - {diaSemana[date.weekday(num_data(a))]:^13} - {num_data(a)}')
 
-'''
+
 a1 = aba_mil_Ind['A1']
 a2 = aba_mil_Ind['A2']
 a3 = aba_mil_Ind.cell(3, 1)
