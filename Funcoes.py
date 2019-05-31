@@ -73,6 +73,8 @@ def gera_quadrinho():
 
 ##########################################
 # Lê o nome e as abas da planilha
+
+
 wb = openpyxl.load_workbook('Escala.xlsx')
 aba_inicio = wb['Inicio']
 aba_ver = wb['Vermelha']
@@ -93,6 +95,9 @@ marrom = []
 roxa = []
 preta = []
 lastro_roxa = []
+lastro_vermelha = []
+lastro_marrom = []
+lastro_preta = []
 
 ##########################################
 # Chamadas Funções
@@ -101,18 +106,41 @@ gera_periodo()
 gera_quadrinho()
 
 ##########################################
-tmp = {}
-tmp1 = []
-lin = aba_rox.max_row
-col = aba_rox.max_column
-for l in range(3, lin + 1):
-    for c in range(1, col):
-        tmp['Nome'] = aba_rox.cell(l, c).value
-        if (aba_rox.cell(l, c).value) != None:
-            tmp['Lastro'] = tmp1.append(aba_rox.cell(l, c))
-        lastro_roxa.append(tmp.copy())
-print(lastro_roxa)
+# Gerar lista sequencia roxa
 
+tmp = []
+fila_roxa = []
+fila_vermelha = []
+fila_marrom = []
+fila_preta = []
+for i in range(3, aba_rox.max_row + 1):
+    for j in range(1,(aba_rox.max_column)+1):
+        conteudo = aba_rox.cell(row=i, column=j).value
+        if conteudo != None:
+            if type(conteudo) is not str:
+                conteudo = data_num(conteudo)
+            tmp.append(conteudo)
+    lastro_roxa.append(tmp.copy())
+    tmp.clear()
+for a in lastro_roxa:
+    b = a[0], len(a)
+    fila_roxa.append(b)
+fila_roxa.reverse()
+fila_roxa = sorted(fila_roxa, key=lambda x: x[1])
+for a in fila_roxa:
+    print(a)
+
+contador = 0
+roxa_final = []
+for dia in roxa:
+    while True:
+        pessoa =  fila_roxa[contador][0]
+        tmp = [dia, pessoa]
+        contador += 1
+        roxa_final.append(tmp.copy())
+        break
+
+print(roxa_final)
 '''
 print(f'Nomes: {nomes}')
 print(f'Período: {periodo}')
@@ -155,6 +183,11 @@ for r in aba_mil_ind['A1':'B10']:
 # Converte data da planilha
 import datetime
 ws['A2'] = datetime.datetime.now()
+
+# Mostra as células A3 até C10
+for c1, c2, c3 in aba_rox['A3': 'C10']:
+    print("{} {} {}".format(c1.value, c2.value, c3.value))
+
 
 #####################################################
 
