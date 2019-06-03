@@ -13,10 +13,22 @@ def num_data(d):
 
 
 def gera_nomes():
+    tmp = {}
+    indisp = []
     lin = aba_inicio.max_row
     col = aba_inicio.max_column
     for i in range(8, lin - 8):
-        nomes.append(aba_inicio.cell(i, 1).value)
+        tmp['Antig'] = i -8
+        tmp['Nome'] = aba_inicio.cell(i, 1).value
+        for c in range(2, aba_inicio.max_column):
+            d = aba_inicio.cell(i, c).value
+            if d != None:
+                e = data_num(d)
+                indisp.append(e)
+        tmp['Indisp'] = indisp.copy()
+        indisp.clear()
+        nomes.append(tmp.copy())
+        tmp.clear()
     return nomes
 
 
@@ -134,13 +146,15 @@ contador = 0
 roxa_final = []
 for dia in roxa:
     while True:
-        pessoa =  fila_roxa[contador][0]
+        pessoa = fila_roxa[contador][0]
         tmp = [dia, pessoa]
-        contador += 1
         roxa_final.append(tmp.copy())
+        contador += 1
         break
 
 print(roxa_final)
+print(nomes)
+
 '''
 print(f'Nomes: {nomes}')
 print(f'Período: {periodo}')
