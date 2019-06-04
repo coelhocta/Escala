@@ -82,6 +82,76 @@ def gera_quadrinho():
         if d not in vermelha and d not in roxa and d not in marrom:
             preta.append(d)
 
+'''
+def gera_fila_roxa():
+    tmp = []
+    fila_roxa = []
+    for i in range(3, aba_rox.max_row + 1):
+        for j in range(1,(aba_rox.max_column)+1):
+            conteudo = aba_rox.cell(row=i, column=j).value
+            if conteudo != None:
+                if type(conteudo) is not str:
+                    conteudo = data_num(conteudo)
+                tmp.append(conteudo)
+        lastro_roxa.append(tmp.copy())
+        tmp.clear()
+    for a in lastro_roxa:
+        b = [a[0], len(a)]
+        fila_roxa.append(b)
+    fila_roxa.reverse()
+    fila_roxa = sorted(fila_roxa, key=lambda x: x[1])
+    return fila_roxa
+'''
+
+def busca_lastro_planilha():
+    tmp = []
+    tmp1 = []
+    # Lastro Roxa
+    for i in range(3, aba_rox.max_row + 1):
+        for j in range(1,(aba_rox.max_column)+1):
+            conteudo = aba_rox.cell(row=i, column=j).value
+            if conteudo != None:
+                if type(conteudo) is not str:
+                    conteudo = data_num(conteudo)
+                tmp.append(conteudo)
+        tmp1.append(tmp.copy())
+        tmp.clear()
+    for a in tmp1:
+        b = [a, len(a)]
+        lastro_roxa.append(b)
+    # Lastro Vermelha
+    for i in range(3, aba_ver.max_row + 1):
+        for j in range(1,(aba_ver.max_column)+1):
+            conteudo = aba_ver.cell(row=i, column=j).value
+            if conteudo != None:
+                if type(conteudo) is not str:
+                    conteudo = data_num(conteudo)
+                tmp.append(conteudo)
+        lastro_vermelha.append(tmp.copy())
+        tmp.clear()
+    # Lastro Marrom
+    for i in range(3, aba_mar.max_row + 1):
+        for j in range(1,(aba_mar.max_column)+1):
+            conteudo = aba_mar.cell(row=i, column=j).value
+            if conteudo != None:
+                if type(conteudo) is not str:
+                    conteudo = data_num(conteudo)
+                tmp.append(conteudo)
+        lastro_marrom.append(tmp.copy())
+        tmp.clear()
+    # Lastro Preta
+    for i in range(3, aba_pre.max_row + 1):
+        for j in range(1,(aba_pre.max_column)+1):
+            conteudo = aba_pre.cell(row=i, column=j).value
+            if conteudo != None:
+                if type(conteudo) is not str:
+                    conteudo = data_num(conteudo)
+                tmp.append(conteudo)
+        lastro_preta.append(tmp.copy())
+        tmp.clear()
+
+
+
 
 ##########################################
 # Lê o nome e as abas da planilha
@@ -116,44 +186,26 @@ lastro_preta = []
 gera_nomes()
 gera_periodo()
 gera_quadrinho()
+busca_lastro_planilha()
 
 ##########################################
 # Gerar lista sequencia roxa
+def f_roxa():
+    fila = []
+    for a in lastro_roxa:
+        b = [a[0], a[1]]
+        fila.append(b)
+    fila.reverse()
+    fila = sorted(fila, key=lambda x: x[1])
+    return fila
 
-tmp = []
-fila_roxa = []
-fila_vermelha = []
-fila_marrom = []
-fila_preta = []
-for i in range(3, aba_rox.max_row + 1):
-    for j in range(1,(aba_rox.max_column)+1):
-        conteudo = aba_rox.cell(row=i, column=j).value
-        if conteudo != None:
-            if type(conteudo) is not str:
-                conteudo = data_num(conteudo)
-            tmp.append(conteudo)
-    lastro_roxa.append(tmp.copy())
-    tmp.clear()
-for a in lastro_roxa:
-    b = a[0], len(a)
-    fila_roxa.append(b)
-fila_roxa.reverse()
-fila_roxa = sorted(fila_roxa, key=lambda x: x[1])
-for a in fila_roxa:
-    print(a)
 
-contador = 0
-roxa_final = []
-for dia in roxa:
-    while True:
-        pessoa = fila_roxa[contador][0]
-        tmp = [dia, pessoa]
-        roxa_final.append(tmp.copy())
-        contador += 1
-        break
+fila_roxa = f_roxa()
+print(fila_roxa)
+lastro_roxa[25][1] += 1
+fila_roxa = f_roxa()
 
-print(roxa_final)
-print(nomes)
+print(fila_roxa)
 
 '''
 print(f'Nomes: {nomes}')
