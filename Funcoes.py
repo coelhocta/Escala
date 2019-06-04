@@ -94,7 +94,6 @@ def fila(cor):
     return fila
 
 
-
 def busca_lastro_planilha():
     tmp = []
     tmp1 = []
@@ -153,8 +152,6 @@ def busca_lastro_planilha():
 
 
 
-
-
 ##########################################
 # Lê o nome e as abas da planilha
 
@@ -191,16 +188,40 @@ gera_quadrinho()
 busca_lastro_planilha()
 
 ##########################################
-# Gerar lista sequencia roxa
+# Gerar lista sequencia da fila
 
-print(fila('roxa'))
-lastro_roxa[25][1] += 1
-lastro_roxa[31][1] += 1
-print(fila('vermelha'))
-print(fila('marrom'))
-print(fila('preta'))
+fila_roxa = fila('roxa')
+fila_vermelha = fila('vermelha')
+fila_marrom = fila('marrom')
+fila_preta = fila('preta')
+
+escala_roxa = {}
+escala_final = []
+contador = 0
+for a in roxa:
+    escala_roxa.clear()
+    escala_roxa['cor'] = 'ROXA'
+    escala_roxa['diaSemana'] = diaSemana[date.weekday(num_data(a))]
+    escala_roxa['dia'] = a
+    while contador < len(escala_roxa):
+        for x in nomes:
+            escala_roxa['nome'] = fila_roxa[contador][0][0]
+            if x['Nome'] == escala_roxa['nome']:
+                if a not in x['Indisp']:
+                    print(x)
+        contador += 1
+    escala_final.append(escala_roxa.copy())
+
+
+for a in escala_final:
+    print(a)
+
 
 '''
+
+lastro_roxa[25][1] += 1
+lastro_roxa[31][1] += 1
+
 print(f'Nomes: {nomes}')
 print(f'Período: {periodo}')
 print(f'Roxa: {roxa}')
