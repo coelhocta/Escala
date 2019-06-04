@@ -99,6 +99,8 @@ def busca_lastro_planilha():
     tmp1 = []
     # Lastro Roxa
     for i in range(3, aba_rox.max_row + 1):
+        antiguidade = i - 3
+        tmp.append(antiguidade)
         for j in range(1,(aba_rox.max_column)+1):
             conteudo = aba_rox.cell(row=i, column=j).value
             if conteudo != None:
@@ -110,6 +112,7 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_roxa.append(b)
+
     # Lastro Vermelha
     for i in range(3, aba_ver.max_row + 1):
         for j in range(1,(aba_ver.max_column)+1):
@@ -123,6 +126,7 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_vermelha.append(b)
+
     # Lastro Marrom
     for i in range(3, aba_mar.max_row + 1):
         for j in range(1, (aba_mar.max_column) + 1):
@@ -136,6 +140,7 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_marrom.append(b)
+
     # Lastro Preta
     for i in range(3, aba_pre.max_row + 1):
         for j in range(1,(aba_pre.max_column)+1):
@@ -216,7 +221,11 @@ for a in roxa:
 for a in escala_final:
     print(a)
 
+for a in nomes:
+    print(a)
 
+for a in fila_roxa:
+    print(a)
 '''
 
 lastro_roxa[25][1] += 1
