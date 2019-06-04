@@ -82,26 +82,18 @@ def gera_quadrinho():
         if d not in vermelha and d not in roxa and d not in marrom:
             preta.append(d)
 
-'''
-def gera_fila_roxa():
-    tmp = []
-    fila_roxa = []
-    for i in range(3, aba_rox.max_row + 1):
-        for j in range(1,(aba_rox.max_column)+1):
-            conteudo = aba_rox.cell(row=i, column=j).value
-            if conteudo != None:
-                if type(conteudo) is not str:
-                    conteudo = data_num(conteudo)
-                tmp.append(conteudo)
-        lastro_roxa.append(tmp.copy())
-        tmp.clear()
-    for a in lastro_roxa:
-        b = [a[0], len(a)]
-        fila_roxa.append(b)
-    fila_roxa.reverse()
-    fila_roxa = sorted(fila_roxa, key=lambda x: x[1])
-    return fila_roxa
-'''
+
+def fila(cor):
+    fila = []
+    z = {'roxa':lastro_roxa, 'vermelha':lastro_vermelha, 'marrom':lastro_marrom, 'preta':lastro_preta}
+    for a in z[cor]:
+        b = [a[0], a[1]]
+        fila.append(b)
+    fila.reverse()
+    fila = sorted(fila, key=lambda x: x[1])
+    return fila
+
+
 
 def busca_lastro_planilha():
     tmp = []
@@ -127,18 +119,24 @@ def busca_lastro_planilha():
                 if type(conteudo) is not str:
                     conteudo = data_num(conteudo)
                 tmp.append(conteudo)
-        lastro_vermelha.append(tmp.copy())
+        tmp1.append(tmp.copy())
         tmp.clear()
+    for a in tmp1:
+        b = [a, len(a)]
+        lastro_vermelha.append(b)
     # Lastro Marrom
     for i in range(3, aba_mar.max_row + 1):
-        for j in range(1,(aba_mar.max_column)+1):
+        for j in range(1, (aba_mar.max_column) + 1):
             conteudo = aba_mar.cell(row=i, column=j).value
             if conteudo != None:
                 if type(conteudo) is not str:
                     conteudo = data_num(conteudo)
                 tmp.append(conteudo)
-        lastro_marrom.append(tmp.copy())
+        tmp1.append(tmp.copy())
         tmp.clear()
+    for a in tmp1:
+        b = [a, len(a)]
+        lastro_marrom.append(b)
     # Lastro Preta
     for i in range(3, aba_pre.max_row + 1):
         for j in range(1,(aba_pre.max_column)+1):
@@ -147,8 +145,12 @@ def busca_lastro_planilha():
                 if type(conteudo) is not str:
                     conteudo = data_num(conteudo)
                 tmp.append(conteudo)
-        lastro_preta.append(tmp.copy())
+        tmp1.append(tmp.copy())
         tmp.clear()
+    for a in tmp1:
+        b = [a, len(a)]
+        lastro_preta.append(b)
+
 
 
 
@@ -190,22 +192,13 @@ busca_lastro_planilha()
 
 ##########################################
 # Gerar lista sequencia roxa
-def f_roxa():
-    fila = []
-    for a in lastro_roxa:
-        b = [a[0], a[1]]
-        fila.append(b)
-    fila.reverse()
-    fila = sorted(fila, key=lambda x: x[1])
-    return fila
 
-
-fila_roxa = f_roxa()
-print(fila_roxa)
+print(fila('roxa'))
 lastro_roxa[25][1] += 1
-fila_roxa = f_roxa()
-
-print(fila_roxa)
+lastro_roxa[31][1] += 1
+print(fila('vermelha'))
+print(fila('marrom'))
+print(fila('preta'))
 
 '''
 print(f'Nomes: {nomes}')
