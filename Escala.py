@@ -200,6 +200,9 @@ fila_vermelha = fila('vermelha')
 fila_marrom = fila('marrom')
 fila_preta = fila('preta')
 
+
+
+'''
 escala_roxa = {}
 escala_final = []
 
@@ -249,7 +252,7 @@ for a in escala_final:
 
 
 
-'''
+
 
 lastro_roxa[25][1] += 1
 lastro_roxa[31][1] += 1
