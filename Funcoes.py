@@ -202,30 +202,38 @@ fila_preta = fila('preta')
 
 escala_roxa = {}
 escala_final = []
-contador = 0
+
 for a in roxa:
-    escala_roxa.clear()
     escala_roxa['cor'] = 'ROXA'
     escala_roxa['diaSemana'] = diaSemana[date.weekday(num_data(a))]
     escala_roxa['dia'] = a
-    while contador < len(escala_roxa):
-        for x in nomes:
-            escala_roxa['nome'] = fila_roxa[contador][0][0]
-            if x['Nome'] == escala_roxa['nome']:
-                if a not in x['Indisp']:
-                    print(x)
-        contador += 1
+    escala_roxa['nome'] = ''
+    cont = 0
+    while escala_roxa['nome'] == '':
+        for b in nomes:
+            if b['Antig'] == fila_roxa[cont][0][0] and a not in b['Indisp']:
+
+                for z in escala_final:
+                    if z['antig'] == b['Antig']:
+                        if a == z['dia'] + 2:
+                            cont += 1
+                escala_roxa['nome'] = fila_roxa[cont][0][1]
+                escala_roxa['antig'] = fila_roxa[cont][0][0]
+                lastro_roxa[b['Antig']][1] += 1
+                fila_roxa = fila('roxa')
+                cont = 0
+                break
+        cont += 1
     escala_final.append(escala_roxa.copy())
 
 
 for a in escala_final:
     print(a)
 
-for a in nomes:
-    print(a)
 
-for a in fila_roxa:
-    print(a)
+
+
+
 '''
 
 lastro_roxa[25][1] += 1
