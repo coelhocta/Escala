@@ -214,9 +214,8 @@ for a in roxa:
             if b['Antig'] == fila_roxa[cont][0][0] and a not in b['Indisp']:
 
                 for z in escala_final:
-                    if z['antig'] == b['Antig']:
-                        if a == z['dia'] + 2:
-                            cont += 1
+                    if z['antig'] == b['Antig'] and (a == z['dia'] + 2):
+                        print(a)
                 escala_roxa['nome'] = fila_roxa[cont][0][1]
                 escala_roxa['antig'] = fila_roxa[cont][0][0]
                 lastro_roxa[b['Antig']][1] += 1
