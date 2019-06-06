@@ -97,23 +97,24 @@ def fila(cor):
 def busca_lastro_planilha():
     tmp = []
     tmp1 = []
-    # Lastro Roxa
-    for i in range(3, aba_rox.max_row + 1):
-        antiguidade = i - 3
-        tmp.append(antiguidade)
-        for j in range(1,(aba_rox.max_column)+1):
-            conteudo = aba_rox.cell(row=i, column=j).value
-            if conteudo != None:
-                if type(conteudo) is not str:
-                    conteudo = data_num(conteudo)
-                tmp.append(conteudo)
-        tmp1.append(tmp.copy())
-        tmp.clear()
-    for a in tmp1:
-        b = [a, len(a)]
-        lastro_roxa.append(b)
-    tmp1.clear()
+    for a in cores:
+        for i in range(3,a['linhas'] + 1):
+            antiguidade = i - 3
+            tmp.append(antiguidade)
+            for j in range(1,(a['colunas'])+1):
+                conteudo = a['conteudo'](row=i, column=j).value
+                if conteudo != None:
+                    if type(conteudo) is not str:
+                        conteudo = data_num(conteudo)
+                    tmp.append(conteudo)
+            tmp1.append(tmp.copy())
+            tmp.clear()
+        for c in tmp1:
+            c = [c, len(c)]
+            a['lastro'].append(c)
+        tmp1.clear()
 
+'''
     # Lastro Vermelha
     for i in range(3, aba_ver.max_row + 1):
         for j in range(1,(aba_ver.max_column)+1):
@@ -158,7 +159,7 @@ def busca_lastro_planilha():
         b = [a, len(a)]
         lastro_preta.append(b)
     tmp1.clear()
-
+'''
 
 def preenche_from_planilha():
     tmp = {}
@@ -199,6 +200,7 @@ def preenche_from_planilha():
                 tmp['nome'] = a[0][1]
                 escala_final.append(tmp.copy())
                 tmp.clear()
+
     print(lastro_vermelha)
     print(lastro_roxa)
     print(lastro_marrom)
@@ -232,7 +234,10 @@ lastro_vermelha = []
 lastro_marrom = []
 lastro_preta = []
 escala_final = []
-
+cores = [{'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
+             {'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
+             {'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
+             {'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
 ##########################################
 # Chamadas Funções
 gera_nomes()
@@ -243,7 +248,6 @@ preenche_from_planilha()
 ##########################################
 # Gerar lista sequencia da fila
 
-fila_roxa = fila('roxa')
 fila_vermelha = fila('vermelha')
 fila_marrom = fila('marrom')
 fila_preta = fila('preta')
