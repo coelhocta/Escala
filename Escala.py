@@ -114,97 +114,21 @@ def busca_lastro_planilha():
             a['lastro'].append(c)
         tmp1.clear()
 
-'''
-    # Lastro Vermelha
-    for i in range(3, aba_ver.max_row + 1):
-        for j in range(1,(aba_ver.max_column)+1):
-            conteudo = aba_ver.cell(row=i, column=j).value
-            if conteudo != None:
-                if type(conteudo) is not str:
-                    conteudo = data_num(conteudo)
-                tmp.append(conteudo)
-        tmp1.append(tmp.copy())
-        tmp.clear()
-    for a in tmp1:
-        b = [a, len(a)]
-        lastro_vermelha.append(b)
-    tmp1.clear()
-
-    # Lastro Marrom
-    for i in range(3, aba_mar.max_row + 1):
-        for j in range(1, (aba_mar.max_column) + 1):
-            conteudo = aba_mar.cell(row=i, column=j).value
-            if conteudo != None:
-                if type(conteudo) is not str:
-                    conteudo = data_num(conteudo)
-                tmp.append(conteudo)
-        tmp1.append(tmp.copy())
-        tmp.clear()
-    for a in tmp1:
-        b = [a, len(a)]
-        lastro_marrom.append(b)
-    tmp1.clear()
-
-    # Lastro Preta
-    for i in range(3, aba_pre.max_row + 1):
-        for j in range(1,(aba_pre.max_column)+1):
-            conteudo = aba_pre.cell(row=i, column=j).value
-            if conteudo != None:
-                if type(conteudo) is not str:
-                    conteudo = data_num(conteudo)
-                tmp.append(conteudo)
-        tmp1.append(tmp.copy())
-        tmp.clear()
-    for a in tmp1:
-        b = [a, len(a)]
-        lastro_preta.append(b)
-    tmp1.clear()
-'''
 
 def preenche_from_planilha():
-    tmp = {}
     # Busca escala forçada da planilha
-    for a in lastro_roxa:
-        for b in a[0]:
-            if b in roxa and b in periodo:
-                tmp['cor'] = 'ROXA'
-                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
-                tmp['dia'] = b
-                tmp['nome'] = a[0][1]
-                escala_final.append(tmp.copy())
-                tmp.clear()
-    for a in lastro_vermelha:
-        for b in a[0]:
-            if b in vermelha and b in periodo:
-                tmp['cor'] = 'VERMELHA'
-                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
-                tmp['dia'] = b
-                tmp['nome'] = a[0][1]
-                escala_final.append(tmp.copy())
-                tmp.clear()
-    for a in lastro_marrom:
-        for b in a[0]:
-            if b in marrom and b in periodo:
-                tmp['cor'] = 'MARROM'
-                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
-                tmp['dia'] = b
-                tmp['nome'] = a[0][1]
-                escala_final.append(tmp.copy())
-                tmp.clear()
-    for a in lastro_preta:
-        for b in a[0]:
-            if b in preta and b in periodo:
-                tmp['cor'] = 'PRETA'
-                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
-                tmp['dia'] = b
-                tmp['nome'] = a[0][1]
-                escala_final.append(tmp.copy())
-                tmp.clear()
+    tmp = {}
+    for f in cores:
+        for a in f['lastro']:
+            for b in a[0]:
+                if b in f['cor'] and b in periodo:
+                    tmp['cor'] = f['cor_texto']
+                    tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
+                    tmp['dia'] = b
+                    tmp['nome'] = a[0][1]
+                    escala_final.append(tmp.copy())
+                    tmp.clear()
 
-    print(lastro_vermelha)
-    print(lastro_roxa)
-    print(lastro_marrom)
-    print(lastro_preta)
 
 ##########################################
 # Lê o nome e as abas da planilha
@@ -219,7 +143,6 @@ aba_rox = wb['Roxa']
 
 ##########################################
 # Gera os dias da Semana
-diaSemana = ['SEGUNDA-FEIRA', 'TERÇA-FEIRA', 'QUARTA-FEIRA', 'QUINTA-FEIRA', 'SEXTA-FEIRA', 'SÁBADO', 'DOMINGO']
 
 ##########################################
 # Listas
@@ -234,10 +157,12 @@ lastro_vermelha = []
 lastro_marrom = []
 lastro_preta = []
 escala_final = []
-cores = [{'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
-             {'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
-             {'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
-             {'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
+diaSemana = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM']
+cores = [{'cor_texto': 'ROXA', 'cor':roxa, 'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
+         {'cor_texto': 'VERMELHA', 'cor':vermelha, 'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
+         {'cor_texto': 'MARROM', 'cor':marrom, 'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
+         {'cor_texto': 'PRETA', 'cor':preta, 'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
+
 ##########################################
 # Chamadas Funções
 gera_nomes()
@@ -245,20 +170,19 @@ gera_periodo()
 gera_quadrinho()
 busca_lastro_planilha()
 preenche_from_planilha()
+
 ##########################################
 # Gerar lista sequencia da fila
 
-fila_vermelha = fila('vermelha')
-fila_marrom = fila('marrom')
-fila_preta = fila('preta')
+#fila_vermelha = fila('vermelha')
+#fila_marrom = fila('marrom')
+#fila_preta = fila('preta')
 
 ##########################################
-
-for a in escala_final:
-    print(a)
 '''
-for a in roxa:
-    escala_roxa['cor'] = 'ROXA'
+for a in cores:
+    tmp = {}
+    escala_vermelha['cor'] = 'ROXA'
     escala_roxa['diaSemana'] = diaSemana[date.weekday(num_data(a))]
     escala_roxa['dia'] = a
     escala_roxa['nome'] = ''
@@ -296,10 +220,12 @@ for a in roxa:
     escala_roxa.clear()
 
 
-for a in escala_final:
-    print(a)
-
-
+for a in periodo:
+    for b in escala_final:
+        if a == b['dia']:
+            print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10}')
+'''
+'''
 
 
 
