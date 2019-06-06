@@ -112,6 +112,7 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_roxa.append(b)
+    tmp1.clear()
 
     # Lastro Vermelha
     for i in range(3, aba_ver.max_row + 1):
@@ -126,6 +127,7 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_vermelha.append(b)
+    tmp1.clear()
 
     # Lastro Marrom
     for i in range(3, aba_mar.max_row + 1):
@@ -140,6 +142,7 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_marrom.append(b)
+    tmp1.clear()
 
     # Lastro Preta
     for i in range(3, aba_pre.max_row + 1):
@@ -154,8 +157,52 @@ def busca_lastro_planilha():
     for a in tmp1:
         b = [a, len(a)]
         lastro_preta.append(b)
+    tmp1.clear()
 
 
+def preenche_from_planilha():
+    tmp = {}
+    # Busca escala forçada da planilha
+    for a in lastro_roxa:
+        for b in a[0]:
+            if b in roxa and b in periodo:
+                tmp['cor'] = 'ROXA'
+                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
+                tmp['dia'] = b
+                tmp['nome'] = a[0][1]
+                escala_final.append(tmp.copy())
+                tmp.clear()
+    for a in lastro_vermelha:
+        for b in a[0]:
+            if b in vermelha and b in periodo:
+                tmp['cor'] = 'VERMELHA'
+                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
+                tmp['dia'] = b
+                tmp['nome'] = a[0][1]
+                escala_final.append(tmp.copy())
+                tmp.clear()
+    for a in lastro_marrom:
+        for b in a[0]:
+            if b in marrom and b in periodo:
+                tmp['cor'] = 'MARROM'
+                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
+                tmp['dia'] = b
+                tmp['nome'] = a[0][1]
+                escala_final.append(tmp.copy())
+                tmp.clear()
+    for a in lastro_preta:
+        for b in a[0]:
+            if b in preta and b in periodo:
+                tmp['cor'] = 'PRETA'
+                tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
+                tmp['dia'] = b
+                tmp['nome'] = a[0][1]
+                escala_final.append(tmp.copy())
+                tmp.clear()
+    print(lastro_vermelha)
+    print(lastro_roxa)
+    print(lastro_marrom)
+    print(lastro_preta)
 
 ##########################################
 # Lê o nome e as abas da planilha
@@ -184,6 +231,7 @@ lastro_roxa = []
 lastro_vermelha = []
 lastro_marrom = []
 lastro_preta = []
+escala_final = []
 
 ##########################################
 # Chamadas Funções
@@ -191,7 +239,7 @@ gera_nomes()
 gera_periodo()
 gera_quadrinho()
 busca_lastro_planilha()
-
+preenche_from_planilha()
 ##########################################
 # Gerar lista sequencia da fila
 
@@ -200,12 +248,11 @@ fila_vermelha = fila('vermelha')
 fila_marrom = fila('marrom')
 fila_preta = fila('preta')
 
+##########################################
 
-
+for a in escala_final:
+    print(a)
 '''
-escala_roxa = {}
-escala_final = []
-
 for a in roxa:
     escala_roxa['cor'] = 'ROXA'
     escala_roxa['diaSemana'] = diaSemana[date.weekday(num_data(a))]
