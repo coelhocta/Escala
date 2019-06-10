@@ -139,8 +139,6 @@ def preenche_from_planilha():
                     tmp['antig'] = a['antig']
                     escala_final.append(tmp.copy())
                     tmp.clear()
-    for a in escala_final:
-        print(a)
 ##########################################
 # Lê o nome e as abas da planilha
 
