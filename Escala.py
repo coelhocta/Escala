@@ -20,7 +20,7 @@ def gera_nomes():
     for i in range(8, lin - 8):
         tmp['Antig'] = i -8
         tmp['Nome'] = aba_inicio.cell(i, 1).value
-        for c in range(2, aba_inicio.max_column):
+        for c in range(2, col):
             d = aba_inicio.cell(i, c).value
             if d != None:
                 e = data_num(d)
@@ -41,28 +41,16 @@ def gera_periodo():
 
 
 def gera_quadrinho():
-    # Busca Roxa da Planilha
-    for r in aba_inicio['B3':'AZ3']:
-        for c in r:
-            if c.value != None:
-                data = data_num(c.value)
-                roxa.append(data)
+    # Busca da Planilha
+    for t in cores:
+        for r in t['dias']:
+            for c in r:
+                if c.value != None:
+                    data = data_num(c.value)
+                    if data in periodo:
+                        t['cor'].append(data)
 
-    # Busca Vermelha da Planilha
-    for r in aba_inicio['B4':'AZ4']:
-        for c in r:
-            if c.value != None:
-                data = data_num(c.value)
-                vermelha.append(data)
-
-    # Busca Marrom da Planilha
-    for r in aba_inicio['C5':'AZ5']:
-        for c in r:
-            if c.value != None:
-                data = data_num(c.value)
-                marrom.append(data)
-
-    # Gera vermelha e Preta Automática
+    # Gera vermelha Automática
     for d in periodo:
         if date.weekday(num_data(d)) in (5, 6) and d not in vermelha and d not in roxa:
             vermelha.append(d)
@@ -93,7 +81,7 @@ def fila(cor):
     fila = sorted(fila, key=lambda x: x[1])
     return fila
 
-
+'''
 def busca_lastro_planilha():
     tmp = []
     tmp1 = []
@@ -113,6 +101,28 @@ def busca_lastro_planilha():
             c = [c, len(c)]
             a['lastro'].append(c)
         tmp1.clear()
+'''
+
+
+def busca_lastro_planilha():
+    tmp = {}
+    tmp1 = []
+    for a in cores:
+        for i in range(3,a['linhas'] + 1):
+            tmp['cor'] = a['cor_texto']
+            tmp['antig'] = i - 3
+            tmp['nome'] = a['conteudo'](row=i, column=1).value
+            for j in range(1,(a['colunas'])+1):
+                conteudo = a['conteudo'](row=i, column=j+1).value
+                if conteudo != None:
+                    if type(conteudo) is not str:
+                        conteudo = data_num(conteudo)
+                    tmp1.append(conteudo)
+            tmp['lastros'] = tmp1.copy()
+            tmp['lastro_total'] = len(tmp1)
+            a['lastro'].append(tmp.copy())
+            tmp1.clear()
+        tmp.clear()
 
 
 def preenche_from_planilha():
@@ -120,16 +130,17 @@ def preenche_from_planilha():
     tmp = {}
     for f in cores:
         for a in f['lastro']:
-            for b in a[0]:
+            for b in a['lastros']:
                 if b in f['cor'] and b in periodo:
                     tmp['cor'] = f['cor_texto']
                     tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
                     tmp['dia'] = b
-                    tmp['nome'] = a[0][1]
+                    tmp['nome'] = a['nome']
+                    tmp['antig'] = a['antig']
                     escala_final.append(tmp.copy())
                     tmp.clear()
-
-
+    for a in escala_final:
+        print(a)
 ##########################################
 # Lê o nome e as abas da planilha
 
@@ -158,10 +169,10 @@ lastro_marrom = []
 lastro_preta = []
 escala_final = []
 diaSemana = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM']
-cores = [{'cor_texto': 'ROXA', 'cor':roxa, 'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
-         {'cor_texto': 'VERMELHA', 'cor':vermelha, 'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
-         {'cor_texto': 'MARROM', 'cor':marrom, 'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
-         {'cor_texto': 'PRETA', 'cor':preta, 'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
+cores = [{'cor_texto': 'ROXA','dias': aba_inicio['B3':'AZ3'], 'cor':roxa, 'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
+         {'cor_texto': 'VERMELHA','dias': aba_inicio['B4':'AZ4'], 'cor':vermelha, 'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
+         {'cor_texto': 'MARROM','dias': aba_inicio['C5':'AZ5'], 'cor':marrom, 'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
+         {'cor_texto': 'PRETA','dias': aba_inicio['C6':'AZ6'], 'cor':preta, 'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
 
 ##########################################
 # Chamadas Funções
@@ -174,57 +185,72 @@ preenche_from_planilha()
 ##########################################
 # Gerar lista sequencia da fila
 
+#fila_roxa = fila('roxa')
 #fila_vermelha = fila('vermelha')
 #fila_marrom = fila('marrom')
 #fila_preta = fila('preta')
 
 ##########################################
+
+for a in vermelha:
+    for b in escala_final:
+        if a == b['dia']:
+            vermelha.remove(a)
 '''
-for a in cores:
-    tmp = {}
-    escala_vermelha['cor'] = 'ROXA'
-    escala_roxa['diaSemana'] = diaSemana[date.weekday(num_data(a))]
-    escala_roxa['dia'] = a
-    escala_roxa['nome'] = ''
+cont = 0
+for a in vermelha:
+
+    tmp = {'cor': 'VERMELHA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome':''}
+    tmp['nome'] = fila_vermelha[cont][0][1]
+    tmp['antig'] = fila_vermelha[cont][0][0]
+    escala_final.append(tmp.copy())
+    tmp.clear()
+    fila_vermelha = fila('vermelha')
+    cont += 1
+'''
+'''
     cont = 0
-    while escala_roxa['nome'] == '':
-        for b in nomes:
-            if b['Antig'] == fila_roxa[cont][0][0] and a not in b['Indisp']:
+    cont_nomes = 0
+    while tmp['nome'] == '':
+        while cont_nomes <= len(nomes)-1:
+            if nomes[cont_nomes]['Antig'] == fila_vermelha[cont][0][0] and a not in nomes[cont_nomes]['Indisp']:
                 if escala_final:
                     for z in escala_final:
-                        if z['antig'] == b['Antig']:
-                            if (a == z['dia'] + 2) or (a == z['dia'] + 1) or (a == z['dia'] - 2) or (a == z['dia'] - 1):
+                        if z['antig'] == nomes[cont_nomes]['Antig']:
+                            if (a == z['dia'] + 2) or (a == z['dia'] + 1) or (a == z['dia'] - 2) or (a == z['dia'] - 1) or (a == z['dia']):
                                 break
                             else:
-                                escala_roxa['nome'] = fila_roxa[cont][0][1]
-                                escala_roxa['antig'] = fila_roxa[cont][0][0]
-                                lastro_roxa[b['Antig']][1] += 1
-                                fila_roxa = fila('roxa')
+                                tmp['nome'] = fila_vermelha[cont][0][1]
+                                tmp['antig'] = fila_vermelha[cont][0][0]
+                                lastro_vermelha[nomes[cont_nomes]['Antig']][1] += 1
+                                escala_final.append(tmp.copy())
                                 cont = 0
                                 break
                         else:
-                            escala_roxa['nome'] = fila_roxa[cont][0][1]
-                            escala_roxa['antig'] = fila_roxa[cont][0][0]
-                            lastro_roxa[b['Antig']][1] += 1
-                            fila_roxa = fila('roxa')
+                            tmp['nome'] = fila_vermelha[cont][0][1]
+                            tmp['antig'] = fila_vermelha[cont][0][0]
+                            lastro_vermelha[nomes[cont_nomes]['Antig']][1] += 1
+                            fila_vermelha = fila('vermelha')
+                            escala_final.append(tmp.copy())
                             cont = 0
                             break
                 else:
-                    escala_roxa['nome'] = fila_roxa[cont][0][1]
-                    escala_roxa['antig'] = fila_roxa[cont][0][0]
-                    lastro_roxa[b['Antig']][1] += 1
-                    fila_roxa = fila('roxa')
+                    tmp['nome'] = fila_vermelha[cont][0][1]
+                    tmp['antig'] = fila_vermelha[cont][0][0]
+                    lastro_vermelha[nomes[cont_nomes]['Antig']][1] += 1
+                    fila_vermelha = fila('vermelha')
+                    escala_final.append(tmp.copy())
                     cont = 0
+                    break
+            cont_nomes += 1
         cont += 1
-    escala_final.append(escala_roxa.copy())
-    escala_roxa.clear()
-
-
+    tmp.clear()
+'''
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
-            print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10}')
-'''
+            print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10} - Antig: {b["antig"]}')
+
 '''
 
 
