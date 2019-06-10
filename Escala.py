@@ -72,36 +72,15 @@ def gera_quadrinho():
 
 
 def fila(cor):
-    fila = []
-    z = {'roxa':lastro_roxa, 'vermelha':lastro_vermelha, 'marrom':lastro_marrom, 'preta':lastro_preta}
-    for a in z[cor]:
-        b = [a[0], a[1]]
-        fila.append(b)
-    fila.reverse()
-    fila = sorted(fila, key=lambda x: x[1])
-    return fila
-
-'''
-def busca_lastro_planilha():
-    tmp = []
-    tmp1 = []
-    for a in cores:
-        for i in range(3,a['linhas'] + 1):
-            antiguidade = i - 3
-            tmp.append(antiguidade)
-            for j in range(1,(a['colunas'])+1):
-                conteudo = a['conteudo'](row=i, column=j).value
-                if conteudo != None:
-                    if type(conteudo) is not str:
-                        conteudo = data_num(conteudo)
-                    tmp.append(conteudo)
-            tmp1.append(tmp.copy())
-            tmp.clear()
-        for c in tmp1:
-            c = [c, len(c)]
-            a['lastro'].append(c)
-        tmp1.clear()
-'''
+    for x in cores:
+        if cor == x['cor_texto']:
+            fila = []
+            for a in x['lastro']:
+                c = [a['lastro_total'], a['antig'], a['nome']]
+                fila.append(c)
+            fila.reverse()
+            fila = sorted(fila, key=lambda x: x[0])
+            return fila
 
 
 def busca_lastro_planilha():
@@ -139,6 +118,8 @@ def preenche_from_planilha():
                     tmp['antig'] = a['antig']
                     escala_final.append(tmp.copy())
                     tmp.clear()
+
+
 ##########################################
 # Lê o nome e as abas da planilha
 
@@ -183,12 +164,17 @@ preenche_from_planilha()
 ##########################################
 # Gerar lista sequencia da fila
 
-#fila_roxa = fila('roxa')
 #fila_vermelha = fila('vermelha')
 #fila_marrom = fila('marrom')
 #fila_preta = fila('preta')
 
 ##########################################
+
+
+
+print(fila('VERMELHA'))
+
+
 
 for a in vermelha:
     for b in escala_final:
