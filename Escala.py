@@ -25,6 +25,7 @@ def gera_nomes():
             if d != None:
                 e = data_num(d)
                 indisp.append(e)
+                indisp.append(e+1)
         tmp['indisp'] = indisp.copy()
         indisp.clear()
         nomes.append(tmp.copy())
@@ -207,7 +208,7 @@ for a in nomes:
 vermelha_copy = vermelha.copy()
 marrom_copy = marrom.copy()
 preta_copy = preta.copy()
-
+'''
 for a in vermelha_copy:
     for b in escala_final:
         if a == b['dia']:
@@ -222,31 +223,14 @@ for a in preta_copy:
     for b in escala_final:
         if a == b['dia']:
             preta_copy.remove(a)
-cont = 0
-for a in vermelha_copy:
-    fila_vermelha = fila_ver()
-    tmp = {'cor': 'VERMELHA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome': ''}
-    while True:
-        for b in nomes:
-            if b['antig'] == fila_vermelha[cont][1]:
-                if a not in b['lastro_total'] \
-                        and a - 1 not in (b['lastro_total']) \
-                        and a + 1 not in (b['lastro_total']) \
-                        and a + 2 not in (b['lastro_total']) \
-                        and a - 2 not in (b['lastro_total'])\
-                        and a not in b['indisp']:
-                    tmp['nome'] = fila_vermelha[cont][2]
-                    tmp['antig'] = fila_vermelha[cont][1]
-                    lastro_vermelha[b['antig']]['lastros'].append(a)
-                    b['lastro_total'].append(a)
-                    escala_final.append(tmp.copy())
-                    tmp.clear()
-                    cont = 0
-                    break
-                else:
-                    cont += 1
-        if not tmp:
-            break
+'''
+for a in escala_final:
+    if a['dia'] in preta_copy:
+        preta_copy.remove(a['dia'])
+    if a['dia'] in vermelha_copy:
+        vermelha_copy.remove(a['dia'])
+    if a['dia'] in marrom_copy:
+        marrom_copy.remove(a['dia'])
 
 cont = 0
 for a in marrom_copy:
@@ -273,6 +257,33 @@ for a in marrom_copy:
                     cont += 1
         if not tmp:
             break
+
+cont = 0
+for a in vermelha_copy:
+    fila_vermelha = fila_ver()
+    tmp = {'cor': 'VERMELHA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome': ''}
+    while True:
+        for b in nomes:
+            if b['antig'] == fila_vermelha[cont][1]:
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']:
+                    tmp['nome'] = fila_vermelha[cont][2]
+                    tmp['antig'] = fila_vermelha[cont][1]
+                    lastro_vermelha[b['antig']]['lastros'].append(a)
+                    b['lastro_total'].append(a)
+                    escala_final.append(tmp.copy())
+                    tmp.clear()
+                    cont = 0
+                    break
+                else:
+                    cont += 1
+        if not tmp:
+            break
+
 cont = 0
 for a in preta_copy:
     fila_preta = fila_pre()
