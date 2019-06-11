@@ -54,17 +54,16 @@ def gera_quadrinho():
     for d in periodo:
         if date.weekday(num_data(d)) in (5, 6) and d not in vermelha and d not in roxa:
             vermelha.append(d)
-        vermelha.sort()
 
     # Gera Marrom Automática
     for d in vermelha:
-        if (d -1) not in vermelha and (d -1) not in roxa:
-            marrom.append(d - 1)
-        for d in roxa:
-            if (d - 1) not in roxa:
-                marrom.append(d - 1)
-        marrom.sort()
-
+        dia = d - 1
+        if dia not in vermelha and dia not in roxa and dia in periodo:
+            marrom.append(dia)
+    for d in roxa:
+        dia = d - 1
+        if dia not in roxa and dia in periodo:
+            marrom.append(dia)
     # Gera Preta Automática
     for d in periodo:
         if d not in vermelha and d not in roxa and d not in marrom:
@@ -205,125 +204,107 @@ for a in nomes:
             for c in b['lastros']:
                 a['lastro_total'].append(c)
 
-for a in vermelha:
+vermelha_copy = vermelha.copy()
+marrom_copy = marrom.copy()
+preta_copy = preta.copy()
+
+for a in vermelha_copy:
     for b in escala_final:
         if a == b['dia']:
-            vermelha.remove(a)
+            vermelha_copy.remove(a)
+
+for a in marrom_copy:
+    for b in escala_final:
+        if a == b['dia']:
+            marrom_copy.remove(a)
+
+for a in preta_copy:
+    for b in escala_final:
+        if a == b['dia']:
+            preta_copy.remove(a)
 cont = 0
-for a in vermelha:
+for a in vermelha_copy:
     fila_vermelha = fila_ver()
     tmp = {'cor': 'VERMELHA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome': ''}
-    for b in nomes:
-        if b['antig'] == fila_vermelha[cont][1]:
-            tmp['nome'] = fila_vermelha[cont][2]
-            tmp['antig'] = fila_vermelha[cont][1]
-            lastro_vermelha[b['antig']]['lastros'].append(a)
-            b['lastro_total'].append(a)
-            escala_final.append(tmp.copy())
-            tmp.clear()
-            cont = 0
-            break
-
-
-'''
-    cont = 0
-    cont_nomes = 0
-    while tmp['nome'] == '':
-        while cont_nomes <= len(nomes)-1:
-            if nomes[cont_nomes]['Antig'] == fila_vermelha[cont][0][0] and a not in nomes[cont_nomes]['Indisp']:
-                if escala_final:
-                    for z in escala_final:
-                        if z['antig'] == nomes[cont_nomes]['Antig']:
-                            if (a == z['dia'] + 2) or (a == z['dia'] + 1) or (a == z['dia'] - 2) or (a == z['dia'] - 1) or (a == z['dia']):
-                                break
-                            else:
-                                tmp['nome'] = fila_vermelha[cont][0][1]
-                                tmp['antig'] = fila_vermelha[cont][0][0]
-                                lastro_vermelha[nomes[cont_nomes]['Antig']][1] += 1
-                                escala_final.append(tmp.copy())
-                                cont = 0
-                                break
-                        else:
-                            tmp['nome'] = fila_vermelha[cont][0][1]
-                            tmp['antig'] = fila_vermelha[cont][0][0]
-                            lastro_vermelha[nomes[cont_nomes]['Antig']][1] += 1
-                            fila_vermelha = fila('vermelha')
-                            escala_final.append(tmp.copy())
-                            cont = 0
-                            break
-                else:
-                    tmp['nome'] = fila_vermelha[cont][0][1]
-                    tmp['antig'] = fila_vermelha[cont][0][0]
-                    lastro_vermelha[nomes[cont_nomes]['Antig']][1] += 1
-                    fila_vermelha = fila('vermelha')
+    while True:
+        for b in nomes:
+            if b['antig'] == fila_vermelha[cont][1]:
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']:
+                    tmp['nome'] = fila_vermelha[cont][2]
+                    tmp['antig'] = fila_vermelha[cont][1]
+                    lastro_vermelha[b['antig']]['lastros'].append(a)
+                    b['lastro_total'].append(a)
                     escala_final.append(tmp.copy())
+                    tmp.clear()
                     cont = 0
                     break
-            cont_nomes += 1
-        cont += 1
-    tmp.clear()
-'''
+                else:
+                    cont += 1
+        if not tmp:
+            break
+
+cont = 0
+for a in marrom_copy:
+    fila_marrom = fila_mar()
+    tmp = {'cor': 'MARROM', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome': ''}
+    while True:
+        for b in nomes:
+            if b['antig'] == fila_marrom[cont][1]:
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']:
+                    tmp['nome'] = fila_marrom[cont][2]
+                    tmp['antig'] = fila_marrom[cont][1]
+                    lastro_marrom[b['antig']]['lastros'].append(a)
+                    b['lastro_total'].append(a)
+                    escala_final.append(tmp.copy())
+                    tmp.clear()
+                    cont = 0
+                    break
+                else:
+                    cont += 1
+        if not tmp:
+            break
+cont = 0
+for a in preta_copy:
+    fila_preta = fila_pre()
+    tmp = {'cor': 'PRETA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome': ''}
+    while True:
+        for b in nomes:
+            if b['antig'] == fila_preta[cont][1]:
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']:
+                    tmp['nome'] = fila_preta[cont][2]
+                    tmp['antig'] = fila_preta[cont][1]
+                    lastro_preta[b['antig']]['lastros'].append(a)
+                    b['lastro_total'].append(a)
+                    escala_final.append(tmp.copy())
+                    tmp.clear()
+                    cont = 0
+                    break
+                else:
+                    cont += 1
+        if not tmp:
+            break
+
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
             print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10}')
 
 '''
-
-
-
-
-
-lastro_roxa[25][1] += 1
-lastro_roxa[31][1] += 1
-
-print(f'Nomes: {nomes}')
-print(f'Período: {periodo}')
-print(f'Roxa: {roxa}')
-print(f'Vermelha: {vermelha}')
-print(f'Marrom: {marrom}')
-print(f'Preta: {preta}')
-
-for a in periodo:
-    if a in roxa:
-        cor = 'Roxa'
-    if a in vermelha:
-        cor = 'Vermelha'
-    if a in marrom:
-        cor = 'Marrom'
-    if a in preta:
-        cor = 'Preta'
-    print(f'{cor:>8} - {diaSemana[date.weekday(num_data(a))]:^13} - {num_data(a)}')
-
-
-a1 = aba_mil_Ind['A1']
-a2 = aba_mil_Ind['A2']
-a3 = aba_mil_Ind.cell(3, 1)
-
-print(a1.value)
-print(a2.value)
-print(a3.value)
-
-# mostra o número de linhas da planilha aba_mil_ind
-print(aba_mil_ind.max_row)
-
-# mostra o número de Colunas da planilha aba_mil_ind
-print(aba_mil_ind.max_column)
-
-# mostra o conteúdo da célula A1 até B10
-for r in aba_mil_ind['A1':'B10']:
-    for c in r:
-        print(c.value)
-
-# Converte data da planilha
-import datetime
-ws['A2'] = datetime.datetime.now()
-
-# Mostra as células A3 até C10
-for c1, c2, c3 in aba_rox['A3': 'C10']:
-    print("{} {} {}".format(c1.value, c2.value, c3.value))
-
-
 #####################################################
 
 # Edita a nova planilha
