@@ -18,14 +18,14 @@ def gera_nomes():
     lin = aba_inicio.max_row
     col = aba_inicio.max_column
     for i in range(8, lin - 8):
-        tmp['Antig'] = i -8
-        tmp['Nome'] = aba_inicio.cell(i, 1).value
+        tmp['antig'] = i -8
+        tmp['nome'] = aba_inicio.cell(i, 1).value
         for c in range(2, col):
             d = aba_inicio.cell(i, c).value
             if d != None:
                 e = data_num(d)
                 indisp.append(e)
-        tmp['Indisp'] = indisp.copy()
+        tmp['indisp'] = indisp.copy()
         indisp.clear()
         nomes.append(tmp.copy())
         tmp.clear()
@@ -71,16 +71,34 @@ def gera_quadrinho():
             preta.append(d)
 
 
-def fila(cor):
-    for x in cores:
-        if cor == x['cor_texto']:
-            fila = []
-            for a in x['lastro']:
-                c = [a['lastro_total'], a['antig'], a['nome']]
-                fila.append(c)
-            fila.reverse()
-            fila = sorted(fila, key=lambda x: x[0])
-            return fila
+def fila_ver():
+    fila = []
+    for a in lastro_vermelha:
+        c = [len(a['lastros']), a['antig'], a['nome']]
+        fila.append(c)
+    fila.reverse()
+    fila = sorted(fila, key=lambda x: x[0])
+    return fila
+
+
+def fila_mar():
+    fila = []
+    for a in lastro_marrom:
+        c = [len(a['lastros']), a['antig'], a['nome']]
+        fila.append(c)
+    fila.reverse()
+    fila = sorted(fila, key=lambda x: x[0])
+    return fila
+
+
+def fila_pre():
+    fila = []
+    for a in lastro_preta:
+        c = [len(a['lastros']), a['antig'], a['nome']]
+        fila.append(c)
+    fila.reverse()
+    fila = sorted(fila, key=lambda x: x[0])
+    return fila
 
 
 def busca_lastro_planilha():
@@ -98,7 +116,6 @@ def busca_lastro_planilha():
                         conteudo = data_num(conteudo)
                     tmp1.append(conteudo)
             tmp['lastros'] = tmp1.copy()
-            tmp['lastro_total'] = len(tmp1)
             a['lastro'].append(tmp.copy())
             tmp1.clear()
         tmp.clear()
@@ -169,29 +186,45 @@ preenche_from_planilha()
 #fila_preta = fila('preta')
 
 ##########################################
-
-
-
-print(fila('VERMELHA'))
-
-
+for a in nomes:
+    a['lastro_total'] = []
+    for b in lastro_roxa:
+        if a['antig'] == (b['antig']):
+            for c in b['lastros']:
+                a['lastro_total'].append(c)
+    for b in lastro_vermelha:
+        if a['antig'] == (b['antig']):
+            for c in b['lastros']:
+                a['lastro_total'].append(c)
+    for b in lastro_marrom:
+        if a['antig'] == (b['antig']):
+            for c in b['lastros']:
+                a['lastro_total'].append(c)
+    for b in lastro_preta:
+        if a['antig'] == (b['antig']):
+            for c in b['lastros']:
+                a['lastro_total'].append(c)
 
 for a in vermelha:
     for b in escala_final:
         if a == b['dia']:
             vermelha.remove(a)
-'''
 cont = 0
 for a in vermelha:
+    fila_vermelha = fila_ver()
+    tmp = {'cor': 'VERMELHA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome': ''}
+    for b in nomes:
+        if b['antig'] == fila_vermelha[cont][1]:
+            tmp['nome'] = fila_vermelha[cont][2]
+            tmp['antig'] = fila_vermelha[cont][1]
+            lastro_vermelha[b['antig']]['lastros'].append(a)
+            b['lastro_total'].append(a)
+            escala_final.append(tmp.copy())
+            tmp.clear()
+            cont = 0
+            break
 
-    tmp = {'cor': 'VERMELHA', 'diaSemana': diaSemana[date.weekday(num_data(a))], 'dia': a, 'nome':''}
-    tmp['nome'] = fila_vermelha[cont][0][1]
-    tmp['antig'] = fila_vermelha[cont][0][0]
-    escala_final.append(tmp.copy())
-    tmp.clear()
-    fila_vermelha = fila('vermelha')
-    cont += 1
-'''
+
 '''
     cont = 0
     cont_nomes = 0
@@ -233,7 +266,7 @@ for a in vermelha:
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
-            print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10} - Antig: {b["antig"]}')
+            print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10}')
 
 '''
 
