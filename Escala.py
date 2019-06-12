@@ -25,7 +25,8 @@ def gera_nomes():
             if d != None:
                 e = data_num(d)
                 indisp.append(e)
-                indisp.append(e+1)
+                indisp.append(e + 1)
+                indisp.append(e - 1)
         tmp['indisp'] = indisp.copy()
         indisp.clear()
         nomes.append(tmp.copy())
