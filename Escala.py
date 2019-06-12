@@ -140,17 +140,13 @@ def preenche_from_planilha():
 
 ##########################################
 # Lê o nome e as abas da planilha
-
-
 wb = openpyxl.load_workbook('Escala.xlsx')
 aba_inicio = wb['Inicio']
 aba_ver = wb['Vermelha']
 aba_pre = wb['Preta']
 aba_mar = wb['Marrom']
 aba_rox = wb['Roxa']
-
-##########################################
-# Gera os dias da Semana
+aba_escala = wb['Escala']
 
 ##########################################
 # Listas
@@ -165,7 +161,7 @@ lastro_vermelha = []
 lastro_marrom = []
 lastro_preta = []
 escala_final = []
-diaSemana = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SÁB', 'DOM']
+diaSemana = ['SEGUNDA-FEIRA', 'TERÇA-FEIRA', 'QUARTA-FEIRA', 'QUINTA-FEIRA', 'SEXTA-FEIRA', 'SÁBADO', 'DOMINGO']
 cores = [{'cor_texto': 'ROXA','dias': aba_inicio['B3':'AZ3'], 'cor':roxa, 'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
          {'cor_texto': 'VERMELHA','dias': aba_inicio['B4':'AZ4'], 'cor':vermelha, 'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
          {'cor_texto': 'MARROM','dias': aba_inicio['C5':'AZ5'], 'cor':marrom, 'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
@@ -178,13 +174,6 @@ gera_periodo()
 gera_quadrinho()
 busca_lastro_planilha()
 preenche_from_planilha()
-
-##########################################
-# Gerar lista sequencia da fila
-
-#fila_vermelha = fila('vermelha')
-#fila_marrom = fila('marrom')
-#fila_preta = fila('preta')
 
 ##########################################
 for a in nomes:
@@ -209,22 +198,7 @@ for a in nomes:
 vermelha_copy = vermelha.copy()
 marrom_copy = marrom.copy()
 preta_copy = preta.copy()
-'''
-for a in vermelha_copy:
-    for b in escala_final:
-        if a == b['dia']:
-            vermelha_copy.remove(a)
 
-for a in marrom_copy:
-    for b in escala_final:
-        if a == b['dia']:
-            marrom_copy.remove(a)
-
-for a in preta_copy:
-    for b in escala_final:
-        if a == b['dia']:
-            preta_copy.remove(a)
-'''
 for a in escala_final:
     if a['dia'] in preta_copy:
         preta_copy.remove(a['dia'])
@@ -314,16 +288,17 @@ for a in preta_copy:
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
-            print(f'{b["cor"]:8} - {b["diaSemana"]:^5} - {num_data(b["dia"])} - {b["nome"]:10}')
+            print(f'{b["cor"]:8} - {b["diaSemana"]:^15} - {num_data(b["dia"])} - {b["nome"]:10}')
 
-'''
-#####################################################
+escala_planilha = [(), (), ('Data', 'Dia da Semana', 'Militar', 'Cor')]
+for a in periodo:
+    for b in escala_final:
+        if a == b['dia']:
+            tmp = (str(date.strftime(num_data(b["dia"]), "%d/%m/%Y")), str(b["diaSemana"]), str(b["nome"]), str(b['cor']))
+            escala_planilha.append(tmp)
 
-# Edita a nova planilha
-planilha = openpyxl.Workbook()
-aba =  wb['Militares.Indisponibilidades'] # Seleciona a aba a ser modificada
-aba.title = 'Aba1' # Altera o nome da aba selecionada
-aba['A3'].value = 'Teste de escrita' # Escreve na célula escolhida
-aba.create_sheet(title='NovaAba' # Cria uma nova aba
-wb.save('Escala.final.xlsx') # Salva uma cópia com o novo nome ad planilha
-'''
+
+for a in escala_planilha:
+    aba_escala.append(a)
+wb.save('Escala.final.xlsx')
+
