@@ -1,6 +1,7 @@
 import openpyxl
 from datetime import date
-
+from openpyxl.styles import Color, Font, colors
+from openpyxl.drawing.image import Image
 
 def data_num(d):
     num = date.toordinal(d)
@@ -285,11 +286,6 @@ for a in preta_copy:
         if not tmp:
             break
 
-for a in periodo:
-    for b in escala_final:
-        if a == b['dia']:
-            print(f'{b["cor"]:8} - {b["diaSemana"]:^15} - {num_data(b["dia"])} - {b["nome"]:10}')
-
 escala_planilha = [(), (), ('Data', 'Dia da Semana', 'Militar', 'Cor')]
 for a in periodo:
     for b in escala_final:
@@ -298,7 +294,55 @@ for a in periodo:
             escala_planilha.append(tmp)
 
 
+from openpyxl.styles import colors
+from openpyxl.styles import Font, Color
+
+
 for a in escala_planilha:
     aba_escala.append(a)
-wb.save('Escala.final.xlsx')
 
+# Coloca cor nas células
+for a in aba_escala:
+    for b in range(len(a)):
+        if (a[b].value) == 'VERMELHA':
+            a[b].font = Font(color=colors.RED, bold=True)
+            a[b-1].font = Font(color=colors.RED, bold=True)
+            a[b - 2].font = Font(color=colors.RED, bold=True)
+            a[b - 3].font = Font(color=colors.RED, bold=True)
+        if (a[b].value) == 'ROXA':
+            a[b].font = Font(color='800080', bold=True)
+            a[b - 1].font = Font(color='800080', bold=True)
+            a[b - 2].font = Font(color='800080', bold=True)
+            a[b - 3].font = Font(color='800080', bold=True)
+        if (a[b].value) == 'MARROM':
+            a[b].font = Font(color='8b4513', bold=True)
+            a[b - 1].font = Font(color='8b4513', bold=True)
+            a[b - 2].font = Font(color='8b4513', bold=True)
+            a[b - 3].font = Font(color='8b4513', bold=True)
+        else:
+            a[b].font = Font(bold=True)
+
+'''
+a1 = aba_escala['A5']
+d4 = aba_escala['C10']
+ft = Font(color=colors.BLUE)
+a1.font = ft
+d4.font = ft
+# If you want to change the color of a Font, you need to reassign it::
+a1.font = Font(color=colors.RED, italic=True) # the change only affects A1
+print(aba_escala['A10'].value)
+'''
+
+wb.save('Escala.final.xlsx')
+########################################
+
+
+########################################
+
+
+'''
+for a in periodo:
+    for b in escala_final:
+        if a == b['dia']:
+            print(f'{b["cor"]:8} - {b["diaSemana"]:^15} - {num_data(b["dia"])} - {b["nome"]:10}')
+'''
