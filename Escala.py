@@ -1,7 +1,10 @@
 import openpyxl
 from datetime import date
-from openpyxl.styles import Color, Font, colors
-from openpyxl.drawing.image import Image
+from openpyxl.styles import colors
+from openpyxl.styles import Font, Color
+from openpyxl.styles import Alignment
+from openpyxl.styles.borders import Border, Side
+
 
 def data_num(d):
     num = date.toordinal(d)
@@ -26,8 +29,6 @@ def gera_nomes():
             if d != None:
                 e = data_num(d)
                 indisp.append(e)
-                indisp.append(e + 1)
-                indisp.append(e - 1)
         tmp['indisp'] = indisp.copy()
         indisp.clear()
         nomes.append(tmp.copy())
@@ -107,9 +108,9 @@ def busca_lastro_planilha():
     tmp = {}
     tmp1 = []
     for a in cores:
-        for i in range(3,a['linhas'] + 1):
+        for i in range(2,a['linhas'] + 1):
             tmp['cor'] = a['cor_texto']
-            tmp['antig'] = i - 3
+            tmp['antig'] = i - 2
             tmp['nome'] = a['conteudo'](row=i, column=1).value
             for j in range(1,(a['colunas'])+1):
                 conteudo = a['conteudo'](row=i, column=j+1).value
@@ -142,6 +143,7 @@ def preenche_from_planilha():
 ##########################################
 # Lê o nome e as abas da planilha
 wb = openpyxl.load_workbook('Escala.xlsx')
+wb.create_sheet('Escala')
 aba_inicio = wb['Inicio']
 aba_ver = wb['Vermelha']
 aba_pre = wb['Preta']
@@ -286,23 +288,18 @@ for a in preta_copy:
         if not tmp:
             break
 
-escala_planilha = [(), (), ('Data', 'Dia da Semana', 'Militar', 'Cor')]
+escala_planilha = [(), (), ('Data', 'Dia da Semana', 'Militar', 'Cor', 'OBS:')]
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
             tmp = (str(date.strftime(num_data(b["dia"]), "%d/%m/%Y")), str(b["diaSemana"]), str(b["nome"]), str(b['cor']))
             escala_planilha.append(tmp)
 
-
-from openpyxl.styles import colors
-from openpyxl.styles import Font, Color
-
-
 for a in escala_planilha:
     aba_escala.append(a)
 
-# Coloca cor nas células
-for a in aba_escala:
+# Coloca cor e borda nas células
+for l, a in enumerate(aba_escala):
     for b in range(len(a)):
         if (a[b].value) == 'VERMELHA':
             a[b].font = Font(color=colors.RED, bold=True)
@@ -319,30 +316,105 @@ for a in aba_escala:
             a[b - 1].font = Font(color='8b4513', bold=True)
             a[b - 2].font = Font(color='8b4513', bold=True)
             a[b - 3].font = Font(color='8b4513', bold=True)
+        if (a[b].value) == 'PRETA':
+            a[b].font = Font(bold=True)
+            a[b - 1].font = Font(bold=True)
+            a[b - 2].font = Font(bold=True)
+            a[b - 3].font = Font(bold=True)
         else:
             a[b].font = Font(bold=True)
+        a[b].alignment = Alignment(horizontal='center')
+        if l > 1 and b < 5:
+            a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'), bottom=Side(style='medium'))
 
+# Apaga a coluna com o texto cores
+aba_escala.delete_cols(4)
+
+# Redimensiona o tamanho das colunas
+aba_escala.column_dimensions['A'].width = 15
+aba_escala.column_dimensions['B'].width = 20
+aba_escala.column_dimensions['C'].width = 28
+aba_escala.column_dimensions['D'].width = 22
+
+
+#############################
 '''
-a1 = aba_escala['A5']
-d4 = aba_escala['C10']
-ft = Font(color=colors.BLUE)
-a1.font = ft
-d4.font = ft
-# If you want to change the color of a Font, you need to reassign it::
-a1.font = Font(color=colors.RED, italic=True) # the change only affects A1
-print(aba_escala['A10'].value)
+'# Inserir imagem
+from openpyxl.drawing.image import Image
+img = Image('logo.png')
+aba_escala.add_image(img, 'A1')
 '''
+##########################
+
+aba_ver.delete_rows(2, aba_ver.max_row)
+for a in lastro_vermelha:
+    temp = []
+    temp.append(a['nome'])
+    for b in a['lastros']:
+        if type(b) is int:
+            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+        else:
+            temp.append(b)
+    aba_ver.append(temp)
+    temp.clear()
+# Coloca cor e borda nas aba Vermelha
+for l, a in enumerate(aba_ver):
+    for b in range(len(a)):
+        if (a[b].value) != None and l > 0:
+            a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+            a[b].font = Font(bold=True)
+
+aba_mar.delete_rows(2, aba_mar.max_row)
+for a in lastro_marrom:
+    temp = []
+    temp.append(a['nome'])
+    for b in a['lastros']:
+        if type(b) is int:
+            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+        else:
+            temp.append(b)
+    aba_mar.append(temp)
+    temp.clear()
+# Coloca cor e borda nas aba Marrom
+for l, a in enumerate(aba_mar):
+    for b in range(len(a)):
+        if (a[b].value) != None and l > 0:
+            a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+            a[b].font = Font(bold=True)
+
+temp = []
+aba_pre.delete_rows(2, aba_pre.max_row)
+for a in lastro_preta:
+    temp.append(a['nome'])
+    for b in a['lastros']:
+        if type(b) is int:
+            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+        else:
+            temp.append(b)
+    aba_pre.append(temp)
+    temp.clear()
+# Coloca cor e borda nas aba Preta
+for l, a in enumerate(aba_pre):
+    for b in range(len(a)):
+        if (a[b].value) != None and l > 0:
+            a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+            a[b].font = Font(bold=True)
+
+aba_rox.delete_rows(2, aba_rox.max_row)
+for a in lastro_roxa:
+    temp.append(a['nome'])
+    for b in a['lastros']:
+        if type(b) is int:
+            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+        else:
+            temp.append(b)
+    aba_rox.append(temp)
+    temp.clear()
+# Coloca cor e borda nas aba Roxa
+for l, a in enumerate(aba_rox):
+    for b in range(len(a)):
+        if (a[b].value) != None and l > 0:
+            a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
+            a[b].font = Font(bold=True)
 
 wb.save('Escala.final.xlsx')
-########################################
-
-
-########################################
-
-
-'''
-for a in periodo:
-    for b in escala_final:
-        if a == b['dia']:
-            print(f'{b["cor"]:8} - {b["diaSemana"]:^15} - {num_data(b["dia"])} - {b["nome"]:10}')
-'''
