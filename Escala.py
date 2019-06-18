@@ -4,7 +4,6 @@ from openpyxl.styles import colors
 from openpyxl.styles import Font, Color
 from openpyxl.styles import Alignment
 from openpyxl.styles.borders import Border, Side
-from openpyxl.styles import NamedStyle
 
 def data_num(d):
     num = date.toordinal(d)
@@ -143,6 +142,7 @@ def preenche_from_planilha():
 ##########################################
 # Lê o nome e as abas da planilha
 wb = openpyxl.load_workbook('Escala.xlsx')
+wb.remove(wb['Escala'])
 wb.create_sheet('Escala')
 aba_inicio = wb['Inicio']
 aba_ver = wb['Vermelha']
@@ -467,30 +467,42 @@ for a in sorted(vermelha):
         if not tmp:
             break
 
-
-escala_planilha_reserva_vermelha = [(), ('RESERVAS:',''), ('VERMELHA', '')]
+fila_marrom = fila_mar()
+fila_preta = fila_pre()
+escala_planilha_reserva_vermelha = [(), (), ('RESERVAS:',''), ('VERMELHA', '', 'MARROM', 'PRETA')]
 for a in periodo:
-    for b in escala_reserva_vermelha:
+    for l, b in enumerate(escala_reserva_vermelha):
         if a == b['dia']:
+            if l < 3:
+                mar = fila_marrom[l][2]
+                pre = fila_preta[l][2]
+            else:
+                mar = ''
+                pre = ''
             dia = date.strftime(num_data(b["dia"]), "%d/%m/%Y")
-            tmp = (dia, str(b["nome"]))
+            tmp = (dia, str(b["nome"]), mar, pre)
             escala_planilha_reserva_vermelha.append(tmp)
 
 for a in escala_planilha_reserva_vermelha:
     aba_escala.append(a)
 
+# Coloca cor e borda
+for l, a in enumerate(aba_escala):
+    if l > len(escala_planilha):
+        for b in range(len(a)):
+            if (a[b].value) != None and l > 0 and not (a[b].value) == '':
+                a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'), bottom=Side(style='medium'))
+                a[b].font = Font(bold=True)
+                a[b].alignment = Alignment(horizontal='center')
+            if b < 2 and l > len(escala_planilha)+2:
+                a[b].font = Font(color=colors.RED, bold=True)
+            if b == 2:
+                a[b].font = Font(color='8b4513', bold=True)
 
-escala_planilha_mar_pre = [(), ('MARROM:', '', 'PRETA')]
-fila_marrom = fila_mar()
-fila_preta = fila_pre()
-for a in range(0,3):
-    mar = fila_marrom[a][2]
-    pre = fila_preta[a][2]
-    marpre = (mar,'',pre)
-    escala_planilha_mar_pre.append(marpre)
 
-for a in escala_planilha_mar_pre:
-    aba_escala.append(a)
+aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=4)
+aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
+
 
 ##########################
 
