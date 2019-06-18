@@ -4,7 +4,7 @@ from openpyxl.styles import colors
 from openpyxl.styles import Font, Color
 from openpyxl.styles import Alignment
 from openpyxl.styles.borders import Border, Side
-
+from openpyxl.styles import NamedStyle
 
 def data_num(d):
     num = date.toordinal(d)
@@ -198,9 +198,9 @@ for a in nomes:
             for c in b['lastros']:
                 a['lastro_total'].append(c)
 
-vermelha_copy = vermelha.copy()
-marrom_copy = marrom.copy()
-preta_copy = preta.copy()
+vermelha_copy = sorted(vermelha.copy())
+marrom_copy = sorted(marrom.copy())
+preta_copy = sorted(preta.copy())
 
 for a in escala_final:
     if a['dia'] in preta_copy:
@@ -288,11 +288,13 @@ for a in preta_copy:
         if not tmp:
             break
 
+
 escala_planilha = [(), (), ('Data', 'Dia da Semana', 'Militar', 'Cor', 'OBS:')]
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
-            tmp = (str(date.strftime(num_data(b["dia"]), "%d/%m/%Y")), str(b["diaSemana"]), str(b["nome"]), str(b['cor']))
+            dia = date.strftime(num_data(b["dia"]), "%d/%m/%Y")
+            tmp = (dia, str(b["diaSemana"]), str(b["nome"]), str(b['cor']))
             escala_planilha.append(tmp)
 
 for a in escala_planilha:
@@ -352,7 +354,7 @@ for a in lastro_vermelha:
     temp.append(a['nome'])
     for b in a['lastros']:
         if type(b) is int:
-            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+            temp.append(num_data(b))
         else:
             temp.append(b)
     aba_ver.append(temp)
@@ -363,6 +365,7 @@ for l, a in enumerate(aba_ver):
         if (a[b].value) != None and l > 0:
             a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
             a[b].font = Font(bold=True)
+            a[b].number_format = 'dd/mm/yyyy'
 
 aba_mar.delete_rows(2, aba_mar.max_row)
 for a in lastro_marrom:
@@ -370,7 +373,7 @@ for a in lastro_marrom:
     temp.append(a['nome'])
     for b in a['lastros']:
         if type(b) is int:
-            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+            temp.append(num_data(b))
         else:
             temp.append(b)
     aba_mar.append(temp)
@@ -381,6 +384,7 @@ for l, a in enumerate(aba_mar):
         if (a[b].value) != None and l > 0:
             a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
             a[b].font = Font(bold=True)
+            a[b].number_format = 'dd/mm/yyyy'
 
 temp = []
 aba_pre.delete_rows(2, aba_pre.max_row)
@@ -388,7 +392,7 @@ for a in lastro_preta:
     temp.append(a['nome'])
     for b in a['lastros']:
         if type(b) is int:
-            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+            temp.append(num_data(b))
         else:
             temp.append(b)
     aba_pre.append(temp)
@@ -399,13 +403,14 @@ for l, a in enumerate(aba_pre):
         if (a[b].value) != None and l > 0:
             a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
             a[b].font = Font(bold=True)
+            a[b].number_format = 'dd/mm/yyyy'
 
 aba_rox.delete_rows(2, aba_rox.max_row)
 for a in lastro_roxa:
     temp.append(a['nome'])
     for b in a['lastros']:
         if type(b) is int:
-            temp.append(str(date.strftime(num_data(b), "%d/%m/%Y")))
+            temp.append(num_data(b))
         else:
             temp.append(b)
     aba_rox.append(temp)
@@ -416,5 +421,78 @@ for l, a in enumerate(aba_rox):
         if (a[b].value) != None and l > 0:
             a[b].border = Border(left=Side(style='thin'), right=Side(style='thin'), top=Side(style='thin'), bottom=Side(style='thin'))
             a[b].font = Font(bold=True)
+            a[b].number_format = 'dd/mm/yyyy'
+
+##########################
+# Reservas
+
+lastro_vermelha_reserva = []
+escala_reserva_vermelha = []
+for a in lastro_vermelha:
+    b = {'antig': a['antig'], 'nome': a['nome'], 'lastro': len(a['lastros'])}
+    lastro_vermelha_reserva.append(b)
+
+def fila_ver_reserva():
+    fila = []
+    for a in lastro_vermelha_reserva:
+        c = [a['lastro'], a['antig'], a['nome']]
+        fila.append(c)
+    fila.reverse()
+    fila = sorted(fila, key=lambda x: x[0])
+    return fila
+
+cont = 0
+for a in sorted(vermelha):
+    fila_vermelha_reserva = fila_ver_reserva()
+    tmp = {'cor': 'VERMELHA', 'dia': a, 'nome': ''}
+    while True:
+        for b in nomes:
+            if b['antig'] == fila_vermelha_reserva[cont][1]:
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']:
+                    tmp['nome'] = fila_vermelha_reserva[cont][2]
+                    tmp['antig'] = fila_vermelha_reserva[cont][1]
+                    lastro_vermelha_reserva[b['antig']]['lastro'] += 1
+                    b['lastro_total'].append(a)
+                    escala_reserva_vermelha.append(tmp.copy())
+                    tmp.clear()
+                    cont = 0
+                    break
+                else:
+                    cont += 1
+        if not tmp:
+            break
+
+
+escala_planilha_reserva_vermelha = [(), ('RESERVAS:',''), ('VERMELHA', '')]
+for a in periodo:
+    for b in escala_reserva_vermelha:
+        if a == b['dia']:
+            dia = date.strftime(num_data(b["dia"]), "%d/%m/%Y")
+            tmp = (dia, str(b["nome"]))
+            escala_planilha_reserva_vermelha.append(tmp)
+
+for a in escala_planilha_reserva_vermelha:
+    aba_escala.append(a)
+
+
+escala_planilha_mar_pre = [(), ('MARROM:', '', 'PRETA')]
+fila_marrom = fila_mar()
+fila_preta = fila_pre()
+for a in range(0,3):
+    mar = fila_marrom[a][2]
+    pre = fila_preta[a][2]
+    marpre = (mar,'',pre)
+    escala_planilha_mar_pre.append(marpre)
+
+for a in escala_planilha_mar_pre:
+    aba_escala.append(a)
+
+##########################
+
 
 wb.save('Escala.final.xlsx')
