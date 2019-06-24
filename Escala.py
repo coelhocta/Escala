@@ -530,6 +530,7 @@ aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row
 aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
 aba_escala.merge_cells(start_row=1, start_column =1, end_row=1, end_column=4)
 
+
 ##########################
 
 
