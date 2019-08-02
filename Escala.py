@@ -53,20 +53,29 @@ def gera_quadrinho():
                     if data in periodo:
                         t['cor'].append(data)
 
-    # Gera vermelha Automática
+    # Gera Vermelha e Marrom Automática
     for d in periodo:
         if date.weekday(num_data(d)) in (5, 6) and d not in vermelha and d not in roxa:
             vermelha.append(d)
+        if date.weekday(num_data(d)) is 4 and d not in vermelha and d not in roxa:
+            marrom.append(d)
+        if date.weekday(num_data(d)) is 4 and d not in marrom:
+            a = d
+            while a not in marrom:
+                if a not in vermelha and a not in roxa:
+                    marrom.append(a)
+                    break
+                a -= 1
 
-    # Gera Marrom Automática
-    for d in vermelha:
-        dia = d - 1
-        if dia not in vermelha and dia not in roxa and dia in periodo:
-            marrom.append(dia)
-    for d in roxa:
-        dia = d - 1
-        if dia not in roxa and dia in periodo:
-            marrom.append(dia)
+    # # Gera Marrom Automática caso seja antes de qualquer vermelha.
+    # for d in vermelha:
+    #     dia = d - 1
+    #     if dia not in vermelha and dia not in roxa and dia in periodo:
+    #         marrom.append(dia)
+    # for d in roxa:
+    #     dia = d - 1
+    #     if dia not in roxa and dia in periodo:
+    #         marrom.append(dia)
     # Gera Preta Automática
     for d in periodo:
         if d not in vermelha and d not in roxa and d not in marrom:
@@ -165,10 +174,10 @@ lastro_marrom = []
 lastro_preta = []
 escala_final = []
 diaSemana = ['SEGUNDA-FEIRA', 'TERÇA-FEIRA', 'QUARTA-FEIRA', 'QUINTA-FEIRA', 'SEXTA-FEIRA', 'SÁBADO', 'DOMINGO']
-cores = [{'cor_texto': 'ROXA','dias': aba_inicio['B3':'AZ3'], 'cor':roxa, 'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
-         {'cor_texto': 'VERMELHA','dias': aba_inicio['B4':'AZ4'], 'cor':vermelha, 'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
-         {'cor_texto': 'MARROM','dias': aba_inicio['C5':'AZ5'], 'cor':marrom, 'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
-         {'cor_texto': 'PRETA','dias': aba_inicio['C6':'AZ6'], 'cor':preta, 'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
+cores = [{'cor_texto': 'ROXA', 'dias': aba_inicio['B3':'AZ3'], 'cor':roxa, 'linhas': aba_rox.max_row, 'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
+         {'cor_texto': 'VERMELHA', 'dias': aba_inicio['B4':'AZ4'], 'cor':vermelha, 'linhas': aba_ver.max_row, 'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
+         {'cor_texto': 'MARROM', 'dias': aba_inicio['C5':'AZ5'], 'cor':marrom, 'linhas': aba_mar.max_row, 'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
+         {'cor_texto': 'PRETA', 'dias': aba_inicio['C6':'AZ6'], 'cor':preta, 'linhas': aba_pre.max_row, 'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
 
 ##########################################
 # Chamadas Funções
@@ -505,6 +514,7 @@ aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row
 
 
 ##########################
+meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho', 'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+nomePlanilha = (meses[num_data(periodo[0]-1).month])
 
-
-wb.save('Escala.final.xlsx')
+wb.save(f'Escala.{nomePlanilha}.xlsx')
