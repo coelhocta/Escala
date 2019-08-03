@@ -310,8 +310,13 @@ for a in preta_copy:
         if not tmp:
             break
 
+meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho',
+         'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
+nomePlanilha = (meses[num_data(periodo[0]-1).month])
 
-escala_planilha = [(), (), ('Data', 'Dia da Semana', 'Militar', 'Cor', 'OBS:')]
+titulo = f'Escala de serviço para o mês de {nomePlanilha}.'
+
+escala_planilha = [(titulo, ''), (), ('Data', 'Dia da Semana', 'Militar', 'Cor', 'OBS:')]
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
@@ -351,6 +356,8 @@ for l, a in enumerate(aba_escala):
         if l > 1 and b < 5:
             a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'),
                                  bottom=Side(style='medium'))
+        if l == 0:
+            a[b].font = Font(bold=True, size=15)
 
 # Apaga a coluna com o texto cores
 aba_escala.delete_cols(4)
@@ -521,11 +528,9 @@ for l, a in enumerate(aba_escala):
 
 aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=4)
 aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
-
+aba_escala.merge_cells(start_row=1, start_column =1, end_row=1, end_column=4)
 
 ##########################
-meses = ['janeiro', 'fevereiro', 'março', 'abril', 'maio', 'junho', 'julho',
-         'agosto', 'setembro', 'outubro', 'novembro', 'dezembro']
-nomePlanilha = (meses[num_data(periodo[0]-1).month])
+
 
 wb.save(f'Escala.{nomePlanilha}.xlsx')
