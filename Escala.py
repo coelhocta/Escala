@@ -1,8 +1,6 @@
 import openpyxl
 from datetime import date
-from openpyxl.styles import colors
-from openpyxl.styles import Font
-from openpyxl.styles import Alignment
+from openpyxl.styles import colors, Font, Alignment
 from openpyxl.styles.borders import Border, Side
 
 
