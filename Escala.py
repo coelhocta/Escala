@@ -357,7 +357,7 @@ for l, a in enumerate(aba_escala):
             a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'),
                                  bottom=Side(style='medium'))
         if l == 0:
-            a[b].font = Font(bold=True, size=15)
+            a[b].font = Font(bold=True, size=15, name='Arial')
 
 # Apaga a coluna com o texto cores
 aba_escala.delete_cols(4)
