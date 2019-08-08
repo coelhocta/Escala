@@ -555,6 +555,18 @@ aba_escala.page_margins.bottom = 0.5
 aba_escala.page_margins.left = 0.5
 aba_escala.page_margins.right = 0.5
 aba_escala.page_horizontalCentered = True
+aba_escala.verticalCentered = True
+
+dataAssinatura = 'São José dos Campos, ' + str(date.today().day) + ' de ' + str(meses[(date.today().month)-1]) + ' de ' + str(date.today().year)
+dataRodape = [(), (dataAssinatura,'')]
+for a in dataRodape:
+    aba_escala.append(a)
+
+ultimaLinha = len(escala_planilha)+len(escala_reserva_vermelha)
+aba_escala.merge_cells(start_row=ultimaLinha+6, start_column=1, end_row=ultimaLinha+6, end_column=2)
+
+aba_escala.cell(row=ultimaLinha+6, column=1).alignment = Alignment(horizontal='center')
+aba_escala.cell(row=ultimaLinha+6, column=1).font = Font(bold=True)
 
 ##########################
 
