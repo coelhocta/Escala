@@ -24,7 +24,7 @@ def fechar():
 
 
 janelaPrincipal = Tk()
-janelaPrincipal.geometry("300x300+300+200")
+janelaPrincipal.geometry("300x300+500+300")
 janelaPrincipal.title("Escala de Serviço")
 
 valor1 = Entry(janelaPrincipal, width=15, bg="white")
@@ -40,6 +40,8 @@ botaoSoma.grid(row=1, column=0, sticky=E)
 botaoSubtrair.grid(row=1, column=1, sticky=W)
 lbResultado.grid(row=2, column=0, columnspan=2)
 botaoFechar.grid(row=3, column=0, columnspan=2, sticky=E+W)
+
+
 
 janelaPrincipal.mainloop()
 

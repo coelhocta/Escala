@@ -244,7 +244,8 @@ for a in marrom_copy:
                         and a + 1 not in (b['lastro_total']) \
                         and a + 2 not in (b['lastro_total']) \
                         and a - 2 not in (b['lastro_total'])\
-                        and a not in b['indisp']:
+                        and a not in b['indisp']\
+                        and '*' not in b['nome']:
                     tmp['nome'] = fila_marrom[cont][2]
                     tmp['antig'] = fila_marrom[cont][1]
                     lastro_marrom[b['antig']]['lastros'].append(a)
@@ -270,7 +271,25 @@ for a in vermelha_copy:
                         and a + 1 not in (b['lastro_total']) \
                         and a + 2 not in (b['lastro_total']) \
                         and a - 2 not in (b['lastro_total'])\
-                        and a not in b['indisp']:
+                        and a not in b['indisp']\
+                        and '*' in b['nome']\
+                        and a + 1 not in preta\
+                        and a + 1 not in marrom:
+                    tmp['nome'] = fila_vermelha[cont][2]
+                    tmp['antig'] = fila_vermelha[cont][1]
+                    lastro_vermelha[b['antig']]['lastros'].append(a)
+                    b['lastro_total'].append(a)
+                    escala_final.append(tmp.copy())
+                    tmp.clear()
+                    cont = 0
+                    break
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']\
+                        and '*' not in b['nome']:
                     tmp['nome'] = fila_vermelha[cont][2]
                     tmp['antig'] = fila_vermelha[cont][1]
                     lastro_vermelha[b['antig']]['lastros'].append(a)
@@ -296,7 +315,8 @@ for a in preta_copy:
                         and a + 1 not in (b['lastro_total']) \
                         and a + 2 not in (b['lastro_total']) \
                         and a - 2 not in (b['lastro_total'])\
-                        and a not in b['indisp']:
+                        and a not in b['indisp']\
+                        and '*' not in b['nome']:
                     tmp['nome'] = fila_preta[cont][2]
                     tmp['antig'] = fila_preta[cont][1]
                     lastro_preta[b['antig']]['lastros'].append(a)
@@ -364,7 +384,7 @@ aba_escala.delete_cols(4)
 
 # Redimensiona o tamanho das colunas
 aba_escala.column_dimensions['A'].width = 15
-aba_escala.column_dimensions['B'].width = 20
+aba_escala.column_dimensions['B'].width = 27
 aba_escala.column_dimensions['C'].width = 28
 aba_escala.column_dimensions['D'].width = 22
 
@@ -530,6 +550,11 @@ aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row
 aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
 aba_escala.merge_cells(start_row=1, start_column =1, end_row=1, end_column=4)
 
+aba_escala.page_margins.top = 0.5
+aba_escala.page_margins.bottom = 0.5
+aba_escala.page_margins.left = 0.5
+aba_escala.page_margins.right = 0.5
+aba_escala.page_horizontalCentered = True
 
 ##########################
 
