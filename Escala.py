@@ -15,22 +15,22 @@ def num_data(d):
 
 
 def gera_nomes():
-    tmp = {}
+    tmp1 = {}
     indisp = []
     lin = aba_inicio.max_row
     col = aba_inicio.max_column
     for i in range(8, lin - 8):
-        tmp['antig'] = i - 8
-        tmp['nome'] = aba_inicio.cell(i, 1).value
-        for c in range(2, col):
-            d = aba_inicio.cell(i, c).value
+        tmp1['antig'] = i - 8
+        tmp1['nome'] = aba_inicio.cell(i, 1).value
+        for c1 in range(2, col):
+            d = aba_inicio.cell(i, c1).value
             if d is not None:
                 e = data_num(d)
                 indisp.append(e)
-        tmp['indisp'] = indisp.copy()
+        tmp1['indisp'] = indisp.copy()
         indisp.clear()
-        nomes.append(tmp.copy())
-        tmp.clear()
+        nomes.append(tmp1.copy())
+        tmp1.clear()
     return nomes
 
 
@@ -46,9 +46,9 @@ def gera_quadrinho():
     # Busca da Planilha
     for t in cores:
         for r in t['dias']:
-            for c in r:
-                if c.value is not None:
-                    data = data_num(c.value)
+            for c2 in r:
+                if c2.value is not None:
+                    data = data_num(c2.value)
                     if data in periodo:
                         t['cor'].append(data)
 
@@ -59,12 +59,12 @@ def gera_quadrinho():
         if date.weekday(num_data(d)) is 4 and d not in vermelha and d not in roxa:
             marrom.append(d)
         if date.weekday(num_data(d)) is 4 and d not in marrom:
-            a = d
-            while a not in marrom:
-                if a not in vermelha and a not in roxa:
-                    marrom.append(a)
+            a1 = d
+            while a1 not in marrom:
+                if a1 not in vermelha and a1 not in roxa:
+                    marrom.append(a1)
                     break
-                a -= 1
+                a1 -= 1
 
     # # Gera Marrom Automática caso seja antes de qualquer vermelha.
     # for d in vermelha:
@@ -83,9 +83,9 @@ def gera_quadrinho():
 
 def fila_ver():
     fila = []
-    for a in lastro_vermelha:
-        c = [len(a['lastros']), a['antig'], a['nome']]
-        fila.append(c)
+    for a1 in lastro_vermelha:
+        c3 = [len(a1['lastros']), a1['antig'], a1['nome']]
+        fila.append(c3)
     fila.reverse()
     fila = sorted(fila, key=lambda x: x[0])
     return fila
@@ -93,9 +93,9 @@ def fila_ver():
 
 def fila_mar():
     fila = []
-    for a in lastro_marrom:
-        c = [len(a['lastros']), a['antig'], a['nome']]
-        fila.append(c)
+    for a2 in lastro_marrom:
+        c4 = [len(a2['lastros']), a2['antig'], a2['nome']]
+        fila.append(c4)
     fila.reverse()
     fila = sorted(fila, key=lambda x: x[0])
     return fila
@@ -103,46 +103,46 @@ def fila_mar():
 
 def fila_pre():
     fila = []
-    for a in lastro_preta:
-        c = [len(a['lastros']), a['antig'], a['nome']]
-        fila.append(c)
+    for a4 in lastro_preta:
+        c6 = [len(a4['lastros']), a4['antig'], a4['nome']]
+        fila.append(c6)
     fila.reverse()
     fila = sorted(fila, key=lambda x: x[0])
     return fila
 
 
 def busca_lastro_planilha():
-    tmp = {}
+    tmp2 = {}
     tmp1 = []
-    for a in cores:
-        for i in range(2, a['linhas'] + 1):
-            tmp['cor'] = a['cor_texto']
-            tmp['antig'] = i - 2
-            tmp['nome'] = a['conteudo'](row=i, column=1).value
-            for j in range(1, (a['colunas'])+1):
-                conteudo = a['conteudo'](row=i, column=j+1).value
+    for a5 in cores:
+        for i in range(2, a5['linhas'] + 1):
+            tmp2['cor'] = a5['cor_texto']
+            tmp2['antig'] = i - 2
+            tmp2['nome'] = a5['conteudo'](row=i, column=1).value
+            for j in range(1, (a5['colunas'])+1):
+                conteudo = a5['conteudo'](row=i, column=j+1).value
                 if conteudo is not None:
                     if type(conteudo) is not str:
                         conteudo = data_num(conteudo)
                     tmp1.append(conteudo)
-            tmp['lastros'] = tmp1.copy()
-            a['lastro'].append(tmp.copy())
+            tmp2['lastros'] = tmp1.copy()
+            a5['lastro'].append(tmp2.copy())
             tmp1.clear()
-        tmp.clear()
+        tmp2.clear()
 
 
 def preenche_from_planilha():
     # Busca escala forçada da planilha
     tmp = {}
     for f in cores:
-        for a in f['lastro']:
-            for b in a['lastros']:
-                if b in f['cor'] and b in periodo:
+        for a7 in f['lastro']:
+            for b4 in a7['lastros']:
+                if b4 in f['cor'] and b4 in periodo:
                     tmp['cor'] = f['cor_texto']
-                    tmp['diaSemana'] = diaSemana[date.weekday(num_data(b))]
-                    tmp['dia'] = b
-                    tmp['nome'] = a['nome']
-                    tmp['antig'] = a['antig']
+                    tmp['diaSemana'] = diaSemana[date.weekday(num_data(b4))]
+                    tmp['dia'] = b4
+                    tmp['nome'] = a7['nome']
+                    tmp['antig'] = a7['antig']
                     escala_final.append(tmp.copy())
                     tmp.clear()
 
@@ -157,19 +157,20 @@ def fila_ver_reserva():
     return fila
 
 
-##########################################
-# Lê o nome e as abas da planilha
-wb = openpyxl.load_workbook('Escala.xlsx')
-wb.remove(wb['Escala'])
-wb.create_sheet('Escala')
-aba_inicio = wb['Inicio']
-aba_ver = wb['Vermelha']
-aba_pre = wb['Preta']
-aba_mar = wb['Marrom']
-aba_rox = wb['Roxa']
-aba_escala = wb['Escala']
+def carregar_dados_planilha(nome_da_planilha='Escala.xlsx'):
+    global wb, aba_inicio, aba_ver, aba_pre, aba_mar, aba_rox, aba_escala
+    wb = openpyxl.load_workbook(nome_da_planilha)
+    wb.remove(wb['Escala'])
+    wb.create_sheet('Escala')
+    aba_inicio = wb['Inicio']
+    aba_ver = wb['Vermelha']
+    aba_pre = wb['Preta']
+    aba_mar = wb['Marrom']
+    aba_rox = wb['Roxa']
+    aba_escala = wb['Escala']
 
-##########################################
+
+carregar_dados_planilha()
 # Listas
 nomes = []
 periodo = []
@@ -348,7 +349,7 @@ for a in escala_planilha:
     aba_escala.append(a)
 
 # Coloca cor e borda nas células
-for l, a in enumerate(aba_escala):
+for l1, a in enumerate(aba_escala):
     for b in range(len(a)):
         if a[b].value == 'VERMELHA':
             a[b].font = Font(color=colors.RED, bold=True)
@@ -373,10 +374,10 @@ for l, a in enumerate(aba_escala):
         else:
             a[b].font = Font(bold=True)
         a[b].alignment = Alignment(horizontal='center')
-        if l > 1 and b < 5:
+        if l1 > 1 and b < 5:
             a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'),
                                  bottom=Side(style='medium'))
-        if l == 0:
+        if l1 == 0:
             a[b].font = Font(bold=True, size=15, name='Arial')
 
 # Apaga a coluna com o texto cores
@@ -548,7 +549,7 @@ for l, a in enumerate(aba_escala):
 
 aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=4)
 aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
-aba_escala.merge_cells(start_row=1, start_column =1, end_row=1, end_column=4)
+aba_escala.merge_cells(start_row=1, start_column=1, end_row=1, end_column=4)
 
 aba_escala.page_margins.top = 0.5
 aba_escala.page_margins.bottom = 0.5
@@ -557,8 +558,9 @@ aba_escala.page_margins.right = 0.5
 aba_escala.page_horizontalCentered = True
 aba_escala.verticalCentered = True
 
-dataAssinatura = 'São José dos Campos, ' + str(date.today().day) + ' de ' + str(meses[(date.today().month)-1]) + ' de ' + str(date.today().year)
-dataRodape = [(), (dataAssinatura,'')]
+dataAssinatura = 'São José dos Campos, ' + str(date.today().day) + ' de ' + \
+                 str(meses[date.today().month-1]) + ' de ' + str(date.today().year)
+dataRodape = [(), (dataAssinatura, '')]
 for a in dataRodape:
     aba_escala.append(a)
 
