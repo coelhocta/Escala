@@ -570,5 +570,4 @@ aba_escala.cell(row=ultimaLinha+6, column=1).font = Font(bold=True)
 
 ##########################
 
-
-# wb.save(f'Escala.{nomePlanilha}.xlsx')
+wb.save(f'Escala.{nomePlanilha}.xlsx')

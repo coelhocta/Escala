@@ -1,10 +1,8 @@
 from tkinter import *
-import Escala
 
 
 def gerar_escala():
-    Escala.py
-    Escala.wb.save(f'Escala.{Escala.nomePlanilha}.xlsx')
+    pass
 
 
 def subrair():
@@ -34,7 +32,7 @@ botaoFechar = Button(janelaPrincipal, text="Fechar", command=fechar)
 
 valor1.grid(row=0, column=0)
 valor2.grid(row=0, column=1)
-botaoSoma.grid(row=1, column=0, sticky=E)
+botaoGerarEscala.grid(row=1, column=0, sticky=E)
 botaoSubtrair.grid(row=1, column=1, sticky=W)
 lbResultado.grid(row=2, column=0, columnspan=2)
 botaoFechar.grid(row=3, column=0, columnspan=2, sticky=E+W)
