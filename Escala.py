@@ -133,44 +133,40 @@ def busca_lastro_planilha():
 
 def preenche_from_planilha():
     # Busca escala forçada da planilha
-    tmp = {}
+    tmp5 = {}
     for f in cores:
         for a7 in f['lastro']:
             for b4 in a7['lastros']:
                 if b4 in f['cor'] and b4 in periodo:
-                    tmp['cor'] = f['cor_texto']
-                    tmp['diaSemana'] = diaSemana[date.weekday(num_data(b4))]
-                    tmp['dia'] = b4
-                    tmp['nome'] = a7['nome']
-                    tmp['antig'] = a7['antig']
-                    escala_final.append(tmp.copy())
-                    tmp.clear()
+                    tmp5['cor'] = f['cor_texto']
+                    tmp5['diaSemana'] = diaSemana[date.weekday(num_data(b4))]
+                    tmp5['dia'] = b4
+                    tmp5['nome'] = a7['nome']
+                    tmp5['antig'] = a7['antig']
+                    escala_final.append(tmp5.copy())
+                    tmp5.clear()
 
 
 def fila_ver_reserva():
     fila = []
-    for a in lastro_vermelha_reserva:
-        c = [a['lastro'], a['antig'], a['nome']]
-        fila.append(c)
+    for a9 in lastro_vermelha_reserva:
+        c9 = [a9['lastro'], a9['antig'], a9['nome']]
+        fila.append(c9)
     fila.reverse()
     fila = sorted(fila, key=lambda x: x[0])
     return fila
 
 
-def carregar_dados_planilha(nome_da_planilha='Escala.xlsx'):
-    global wb, aba_inicio, aba_ver, aba_pre, aba_mar, aba_rox, aba_escala
-    wb = openpyxl.load_workbook(nome_da_planilha)
-    wb.remove(wb['Escala'])
-    wb.create_sheet('Escala')
-    aba_inicio = wb['Inicio']
-    aba_ver = wb['Vermelha']
-    aba_pre = wb['Preta']
-    aba_mar = wb['Marrom']
-    aba_rox = wb['Roxa']
-    aba_escala = wb['Escala']
+wb = openpyxl.load_workbook('Escala.xlsx')
+wb.remove(wb['Escala'])
+wb.create_sheet('Escala')
+aba_inicio = wb['Inicio']
+aba_ver = wb['Vermelha']
+aba_pre = wb['Preta']
+aba_mar = wb['Marrom']
+aba_rox = wb['Roxa']
+aba_escala = wb['Escala']
 
-
-carregar_dados_planilha()
 # Listas
 nomes = []
 periodo = []
@@ -188,9 +184,9 @@ cores = [{'cor_texto': 'ROXA', 'dias': aba_inicio['B3':'AZ3'], 'cor':roxa, 'linh
           'colunas':aba_rox.max_column, 'conteudo': aba_rox.cell, 'lastro':lastro_roxa},
          {'cor_texto': 'VERMELHA', 'dias': aba_inicio['B4':'AZ4'], 'cor':vermelha, 'linhas': aba_ver.max_row,
           'colunas':aba_ver.max_column, 'conteudo': aba_ver.cell, 'lastro':lastro_vermelha},
-         {'cor_texto': 'MARROM', 'dias': aba_inicio['C5':'AZ5'], 'cor':marrom, 'linhas': aba_mar.max_row,
+         {'cor_texto': 'MARROM', 'dias': aba_inicio['B5':'AZ5'], 'cor':marrom, 'linhas': aba_mar.max_row,
           'colunas':aba_mar.max_column, 'conteudo': aba_mar.cell, 'lastro':lastro_marrom},
-         {'cor_texto': 'PRETA', 'dias': aba_inicio['C6':'AZ6'], 'cor':preta, 'linhas': aba_pre.max_row,
+         {'cor_texto': 'PRETA', 'dias': aba_inicio['B6':'AZ6'], 'cor':preta, 'linhas': aba_pre.max_row,
           'colunas':aba_pre.max_column, 'conteudo': aba_pre.cell, 'lastro':lastro_preta}]
 
 ##########################################
@@ -487,6 +483,12 @@ for a in lastro_vermelha:
     b = {'antig': a['antig'], 'nome': a['nome'], 'lastro': len(a['lastros'])}
     lastro_vermelha_reserva.append(b)
 
+
+
+
+
+
+
 cont = 0
 for a in sorted(vermelha):
     fila_vermelha_reserva = fila_ver_reserva()
@@ -499,7 +501,25 @@ for a in sorted(vermelha):
                         and a + 1 not in (b['lastro_total']) \
                         and a + 2 not in (b['lastro_total']) \
                         and a - 2 not in (b['lastro_total'])\
-                        and a not in b['indisp']:
+                        and a not in b['indisp']\
+                        and '*' in b['nome']\
+                        and a + 1 not in preta\
+                        and a + 1 not in marrom:
+                    tmp['nome'] = fila_vermelha_reserva[cont][2]
+                    tmp['antig'] = fila_vermelha_reserva[cont][1]
+                    lastro_vermelha_reserva[b['antig']]['lastro'] += 1
+                    b['lastro_total'].append(a)
+                    escala_reserva_vermelha.append(tmp.copy())
+                    tmp.clear()
+                    cont = 0
+                    break
+                if a not in b['lastro_total'] \
+                        and a - 1 not in (b['lastro_total']) \
+                        and a + 1 not in (b['lastro_total']) \
+                        and a + 2 not in (b['lastro_total']) \
+                        and a - 2 not in (b['lastro_total'])\
+                        and a not in b['indisp']\
+                        and '*' not in b['nome']:
                     tmp['nome'] = fila_vermelha_reserva[cont][2]
                     tmp['antig'] = fila_vermelha_reserva[cont][1]
                     lastro_vermelha_reserva[b['antig']]['lastro'] += 1
