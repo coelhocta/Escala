@@ -94,8 +94,9 @@ def fila_ver():
 def fila_mar():
     fila = []
     for a2 in lastro_marrom:
-        c4 = [len(a2['lastros']), a2['antig'], a2['nome']]
-        fila.append(c4)
+        if "*" not in a2['nome']:
+            c4 = [len(a2['lastros']), a2['antig'], a2['nome']]
+            fila.append(c4)
     fila.reverse()
     fila = sorted(fila, key=lambda x: x[0])
     return fila
@@ -104,8 +105,9 @@ def fila_mar():
 def fila_pre():
     fila = []
     for a4 in lastro_preta:
-        c6 = [len(a4['lastros']), a4['antig'], a4['nome']]
-        fila.append(c6)
+        if "*" not in a4['nome']:
+            c6 = [len(a4['lastros']), a4['antig'], a4['nome']]
+            fila.append(c6)
     fila.reverse()
     fila = sorted(fila, key=lambda x: x[0])
     return fila
@@ -482,12 +484,6 @@ escala_reserva_vermelha = []
 for a in lastro_vermelha:
     b = {'antig': a['antig'], 'nome': a['nome'], 'lastro': len(a['lastros'])}
     lastro_vermelha_reserva.append(b)
-
-
-
-
-
-
 
 cont = 0
 for a in sorted(vermelha):
