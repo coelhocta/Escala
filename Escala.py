@@ -2,7 +2,7 @@ import openpyxl
 from datetime import date
 from openpyxl.styles import colors, Font, Alignment
 from openpyxl.styles.borders import Border, Side
-
+from os import rename, listdir, remove
 
 def data_num(d):
     num = date.toordinal(d)
@@ -604,4 +604,10 @@ for linha in range(ultimaLinha+5,ultimaLinha+10):
 
 ##########################
 
+lista_arquivos = listdir('.')
+if 'Escala.OLD.xlsx' in lista_arquivos:
+    remove('Escala.OLD.xlsx')
+rename('Escala.xlsx', 'Escala.OLD.xlsx')
+wb.save(f'Escala.xlsx')
+aba_inicio.sheet_state = 'hidden'
 wb.save(f'Escala.{nomePlanilha}.xlsx')
