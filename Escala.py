@@ -531,7 +531,7 @@ for a in sorted(vermelha):
 
 fila_marrom = fila_mar()
 fila_preta = fila_pre()
-escala_planilha_reserva_vermelha = [(), ('RESERVAS:', ''), ('VERMELHA', '', 'MARROM', 'PRETA')]
+escala_planilha_reserva_vermelha = [(), (), ('RESERVAS:', ''), ('VERMELHA', '', 'MARROM', 'PRETA')]
 for a in periodo:
     for l, b in enumerate(escala_reserva_vermelha):
         if a == b['dia']:
@@ -563,8 +563,8 @@ for l, a in enumerate(aba_escala):
                 a[b].font = Font(color='8b4513', bold=True)
 
 
-aba_escala.merge_cells(start_row=len(escala_planilha)+2, start_column=1, end_row=len(escala_planilha)+2, end_column=4)
-aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=2)
+aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=4)
+aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
 aba_escala.merge_cells(start_row=1, start_column=1, end_row=1, end_column=4)
 
 aba_escala.page_margins.top = 0.5
@@ -572,7 +572,6 @@ aba_escala.page_margins.bottom = 0.5
 aba_escala.page_margins.left = 0.5
 aba_escala.page_margins.right = 0.5
 aba_escala.page_horizontalCentered = True
-aba_escala.page_verticalCentered = True
 
 assinaura1 = aba_inicio['F1'].value
 assinaura2 = aba_inicio['F2'].value
@@ -582,7 +581,7 @@ assinaura4 = aba_inicio['J2'].value
 
 dataAssinatura = 'São José dos Campos, ' + str(date.today().day) + ' de ' + \
                  str(meses[date.today().month-1]) + ' de ' + str(date.today().year)
-dataRodape = [(dataAssinatura, ''),(), ('_____________________________________','','_____________________________________'),
+dataRodape = [(dataAssinatura, ''),(), ('______________________________________','','______________________________________'),
               (assinaura1, '', assinaura3), (assinaura2, '', assinaura4)]
 for a in dataRodape:
     aba_escala.append(a)
@@ -590,16 +589,15 @@ for a in dataRodape:
 ultimaLinha = len(escala_planilha)+len(escala_reserva_vermelha)
 
 
-aba_escala.merge_cells(start_row=ultimaLinha+4, start_column=1, end_row=ultimaLinha+4, end_column=2)
-aba_escala.merge_cells(start_row=ultimaLinha+6, start_column=1, end_row=ultimaLinha+6, end_column=2)
-aba_escala.merge_cells(start_row=ultimaLinha+6, start_column=3, end_row=ultimaLinha+6, end_column=4)
+aba_escala.merge_cells(start_row=ultimaLinha+5, start_column=1, end_row=ultimaLinha+5, end_column=2)
 aba_escala.merge_cells(start_row=ultimaLinha+7, start_column=1, end_row=ultimaLinha+7, end_column=2)
 aba_escala.merge_cells(start_row=ultimaLinha+7, start_column=3, end_row=ultimaLinha+7, end_column=4)
 aba_escala.merge_cells(start_row=ultimaLinha+8, start_column=1, end_row=ultimaLinha+8, end_column=2)
 aba_escala.merge_cells(start_row=ultimaLinha+8, start_column=3, end_row=ultimaLinha+8, end_column=4)
+aba_escala.merge_cells(start_row=ultimaLinha+9, start_column=1, end_row=ultimaLinha+9, end_column=2)
+aba_escala.merge_cells(start_row=ultimaLinha+9, start_column=3, end_row=ultimaLinha+9, end_column=4)
 
-aba_escala.cell(row=ultimaLinha+8, column=1).font = Font(bold=True)
-for linha in range(ultimaLinha+4,ultimaLinha+9):
+for linha in range(ultimaLinha+5,ultimaLinha+10):
     for coluna in range(1,5):
         aba_escala.cell(row=linha, column=coluna).font = Font(bold=True)
         aba_escala.cell(row=linha, column=coluna).alignment = Alignment(horizontal='center')
