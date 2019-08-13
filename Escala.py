@@ -552,12 +552,12 @@ for a in escala_planilha_reserva_vermelha:
 for l, a in enumerate(aba_escala):
     if l > len(escala_planilha):
         for b in range(len(a)):
-            if a[b].value is not None and l > 0 and not a[b].value == '':
+            if a[b].value is not None and not a[b].value == '':
                 a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'),
                                      bottom=Side(style='medium'))
                 a[b].font = Font(bold=True)
                 a[b].alignment = Alignment(horizontal='center')
-            if b < 2 and l > len(escala_planilha)+1:
+            if b < 2 and l > len(escala_planilha)+2:
                 a[b].font = Font(color=colors.RED, bold=True)
             if b == 2:
                 a[b].font = Font(color='8b4513', bold=True)
