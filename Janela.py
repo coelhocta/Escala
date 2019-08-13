@@ -20,7 +20,7 @@ def fechar():
 
 
 janelaPrincipal = Tk()
-janelaPrincipal.geometry("300x300+500+300")
+janelaPrincipal.geometry("200x100+500+300")
 janelaPrincipal.title("Escala de Serviço")
 
 valor1 = Entry(janelaPrincipal, width=15, bg="white")

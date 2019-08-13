@@ -335,7 +335,7 @@ nomePlanilha = (meses[num_data(periodo[0]-1).month])
 
 titulo = f'Escala de serviço para o mês de {nomePlanilha}.'
 
-escala_planilha = [(titulo, ''), (), ('Data', 'Dia da Semana', 'Militar', 'Cor', 'OBS:')]
+escala_planilha = [(titulo, ''), ('Data', 'Dia da Semana', 'Militar', 'Cor', 'OBS:')]
 for a in periodo:
     for b in escala_final:
         if a == b['dia']:
@@ -372,7 +372,7 @@ for l1, a in enumerate(aba_escala):
         else:
             a[b].font = Font(bold=True)
         a[b].alignment = Alignment(horizontal='center')
-        if l1 > 1 and b < 5:
+        if l1 > 0 and b < 5:
             a[b].border = Border(left=Side(style='medium'), right=Side(style='medium'), top=Side(style='medium'),
                                  bottom=Side(style='medium'))
         if l1 == 0:
@@ -531,7 +531,7 @@ for a in sorted(vermelha):
 
 fila_marrom = fila_mar()
 fila_preta = fila_pre()
-escala_planilha_reserva_vermelha = [(), (), ('RESERVAS:', ''), ('VERMELHA', '', 'MARROM', 'PRETA')]
+escala_planilha_reserva_vermelha = [(), ('RESERVAS:', ''), ('VERMELHA', '', 'MARROM', 'PRETA')]
 for a in periodo:
     for l, b in enumerate(escala_reserva_vermelha):
         if a == b['dia']:
@@ -563,8 +563,8 @@ for l, a in enumerate(aba_escala):
                 a[b].font = Font(color='8b4513', bold=True)
 
 
-aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=4)
-aba_escala.merge_cells(start_row=len(escala_planilha)+4, start_column=1, end_row=len(escala_planilha)+4, end_column=2)
+aba_escala.merge_cells(start_row=len(escala_planilha)+2, start_column=1, end_row=len(escala_planilha)+2, end_column=4)
+aba_escala.merge_cells(start_row=len(escala_planilha)+3, start_column=1, end_row=len(escala_planilha)+3, end_column=2)
 aba_escala.merge_cells(start_row=1, start_column=1, end_row=1, end_column=4)
 
 aba_escala.page_margins.top = 0.5
@@ -574,17 +574,38 @@ aba_escala.page_margins.right = 0.5
 aba_escala.page_horizontalCentered = True
 aba_escala.verticalCentered = True
 
+assinaura1 = aba_inicio['F1'].value
+assinaura2 = aba_inicio['F2'].value
+assinaura3 = aba_inicio['J1'].value
+assinaura4 = aba_inicio['J2'].value
+
+
 dataAssinatura = 'São José dos Campos, ' + str(date.today().day) + ' de ' + \
                  str(meses[date.today().month-1]) + ' de ' + str(date.today().year)
-dataRodape = [(), (dataAssinatura, '')]
+dataRodape = [(dataAssinatura, ''),(), ('__________________________________','','__________________________________'),
+              (assinaura1, '', assinaura3), (assinaura2, '', assinaura4)]
 for a in dataRodape:
     aba_escala.append(a)
 
 ultimaLinha = len(escala_planilha)+len(escala_reserva_vermelha)
-aba_escala.merge_cells(start_row=ultimaLinha+6, start_column=1, end_row=ultimaLinha+6, end_column=2)
 
-aba_escala.cell(row=ultimaLinha+6, column=1).alignment = Alignment(horizontal='center')
-aba_escala.cell(row=ultimaLinha+6, column=1).font = Font(bold=True)
+aba_escala.merge_cells(start_row=ultimaLinha+5, start_column=1, end_row=ultimaLinha+5, end_column=2)
+aba_escala.cell(row=ultimaLinha+5, column=1).alignment = Alignment(horizontal='center')
+aba_escala.cell(row=ultimaLinha+5, column=1).font = Font(bold=True)
+#
+# aba_escala.merge_cells(start_row=ultimaLinha+8, start_column=1, end_row=ultimaLinha+6, end_column=2)
+# aba_escala.cell(row=ultimaLinha+8, column=1).alignment = Alignment(horizontal='center')
+# aba_escala.cell(row=ultimaLinha+8, column=1).font = Font(bold=True)
+# aba_escala.merge_cells(start_row=ultimaLinha+8, start_column=1, end_row=ultimaLinha+6, end_column=2)
+# aba_escala.cell(row=ultimaLinha+8, column=1).alignment = Alignment(horizontal='center')
+# aba_escala.cell(row=ultimaLinha+8, column=1).font = Font(bold=True)
+#
+# aba_escala.merge_cells(start_row=ultimaLinha+8, start_column=2, end_row=ultimaLinha+6, end_column=4)
+# aba_escala.cell(row=ultimaLinha+8, column=3).alignment = Alignment(horizontal='center')
+# aba_escala.cell(row=ultimaLinha+8, column=3).font = Font(bold=True)
+# aba_escala.merge_cells(start_row=ultimaLinha+8, start_column=2, end_row=ultimaLinha+6, end_column=4)
+# aba_escala.cell(row=ultimaLinha+8, column=3).alignment = Alignment(horizontal='center')
+# aba_escala.cell(row=ultimaLinha+8, column=3).font = Font(bold=True)
 
 ##########################
 
