@@ -6,7 +6,7 @@ Alimentar a tabela com os quadrinhos e lista de militares que concorrem a escala
 
 para converter py em exe, execute: `auto-py-to-exe`
 
-# ![](https://github.com/coelhocta/Escala/blob/master/img/soldado.ico) Markdown Here
+# ![ Gerador de Escala de Serviço](https://github.com/coelhocta/Escala/blob/master/img/soldado.ico)
 
 [**Visit the website.**](http://markdown-here.com)<br>
 [**Get it for Chrome.**](https://chrome.google.com/webstore/detail/elifhakcjgalahccnjkneoccemfahfoa)<br>
