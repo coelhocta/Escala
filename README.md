@@ -1,6 +1,8 @@
-<p align="center">
-  <img src="https://github.com/coelhocta/Escala/blob/master/img/soldado.ico"></p>
 # Gerador de Escala de Serviço
+
+<p align="center"><img src="https://github.com/coelhocta/Escala/blob/master/img/soldado.ico"></p>
+
+
 
 Alimentar a planilha com os quadrinhos e lista de militares que concorrem a escala.
 
