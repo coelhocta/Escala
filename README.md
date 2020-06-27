@@ -4,9 +4,13 @@
 
 ## Pré-requisitos
 
-**Office 2007 insalado.
+* Microsoft Office Excel 2007.
 
-Abra a planilha e escolha a aba Inicio
+## Utilização
+
+Abra a planilha e escolha a aba **Inicio**
+
+* **PERÍODO:** É o período que a escala será gerada. Inicio do período na célula **B1** e término do período na célula **C1**
 
 Alimentar a planilha com os quadrinhos e lista de militares que concorrem a escala.
 
