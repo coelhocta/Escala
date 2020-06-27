@@ -1,9 +1,8 @@
+<p align="center">
+  <img src="https://github.com/coelhocta/Escala/blob/master/img/soldado.ico"></p>
 # Gerador de Escala de Serviço
-# ![](https://github.com/coelhocta/Escala/blob/master/img/soldado.ico)
 
-Gerador de escala de serviço
-
-Alimentar a tabela com os quadrinhos e lista de militares que concorrem a escala.
+Alimentar a planilha com os quadrinhos e lista de militares que concorrem a escala.
 
 para converter py em exe, execute: `auto-py-to-exe`
 
