@@ -10,7 +10,7 @@
 
 1. Abra a planilha **Escala.xlsx** e selecione a aba **Inicio**:
 
-* **PERÍODO:** É o período que a escala será gerada. Célula **B1** Início e **C1** término.
+* **PERÍODO:** Escolha o período que a escala será gerada. Célula **B1** Início e **C1** término.
 
 * **Casos especiais:** Se um feriado cai durante a semana, deve ser inserido o(s) dia(s) do feriado ao lado da cor correspondente.
 
@@ -22,14 +22,16 @@
 
 **Militares que concorrem à Escala:** Na ***Coluna A*** a partir da célula ***8*** devem ser inseridos os nomes de todos os Militares **POR ANTIGUIDADE** que concorrem à escala de Serviço
 
+**INDISPONIBILIDADES:** Insira todos os dias indisponíveis ao lado de cada militar indisponível.
+
 2. 
 
-## Possíveis erros
+## Possíveis erros ou inconsistências
 
 * Usar um editor de planilhas que não seja o Excel 2007.
 * Colocar uma data que não existe, por exemplo 31/06/2020.
 * Colocar uma data final menor que a data inicial.
-
+* Preencher um quadrinho que não seja correspondente à cor. ***Obs.*** Você pode forçar um militar a tirar serviço no dia que vc quiser, porém preencha com o dia correto ou será gerado uma escala inconsistente com os quadrinhos. *Ex.* Se no dia 19/06/2020 (marrom) eu quero escalar uma pessoa, e escrevo esta data na aba *Vermelha*, isso o sistema não pode tratar, pois o quadrinho deveria estar escrito na aba *Marrom* e não na aba *Vermelha*.
 **Observação:** Todas as datas devem ser inseridas no formato **DD/MM/AAAA**, *Exemplo: 01/01/2021*.
 
 Alimentar a planilha com os quadrinhos e lista de militares que concorrem a escala.
