@@ -7,7 +7,7 @@
 * Windows.
 * Microsoft Office Excel 2007.
 
-## Instruções:
+## Instruções
 
 * Abra a planilha **Escala.xlsx** e selecione a aba **Inicio**:
 
@@ -33,7 +33,7 @@
 
 * ***IMPORTANTE: ⭐️ SE O MILITAR NÃO CONCORRE À ESCALA PRETA OU MARROM, MESMO ASSIM O NOME DELE DEVE ESTAR NA CONTAGEM DOS QUADRINHOS PRETA E MARROM.⭐️***
 
-## Criação da Escala:
+## Criação da Escala
 
 1. Após ter preenchido as planilhas, feche a planilha:
 2. Execute o programa ***Escala.exe***
@@ -49,10 +49,9 @@
 
 **Observação:** Todas as datas devem ser inseridas no formato **DD/MM/AAAA**, *Exemplo: 01/01/2021*.
 
+## For DEVs
 
-## For DEVs:
 ```sh
 pip install -r requirements.txt
 para converter py em exe, execute: `auto-py-to-exe`
 ```
-
