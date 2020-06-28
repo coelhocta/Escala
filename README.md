@@ -21,7 +21,7 @@
 
 * **Assinaturas:** Nas células ***F1*** e ***J1*** devem ser inseridos as assinaturas e nas células ***F2*** e ***J2*** devem ser inseridas as Funções.
 
-* **Militares que concorrem à Escala:** Na ***Coluna A*** a partir da célula ***8*** devem ser inseridos os nomes de todos os Militares **POR ANTIGUIDADE** que concorrem à escala de Serviço e **DEVE-SE INSERIR EM TODAS AS ABAS, Vermelha, Preta, Marrom e Roxa!**
+* **Militares que concorrem à Escala:** Na ***Coluna A*** a partir da ***Linha 8*** devem ser inseridos os nomes de todos os Militares **POR ANTIGUIDADE** que concorrem à escala de Serviço e **DEVE-SE INSERIR EM TODAS AS ABAS, Vermelha, Preta, Marrom e Roxa! (Devem ser exatamente Iguais)**
 
 * **INDISPONIBILIDADES:** Insira todos os dias indisponíveis ao lado de cada militar indisponível.
 
