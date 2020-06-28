@@ -41,11 +41,11 @@
 
 ## Possíveis erros ou inconsistências
 
-* Usar um editor de planilhas que não seja o Excel 2007.
-* Colocar uma data que não existe, por exemplo 31/06/2020.
-* Colocar uma data final menor que a data inicial.
+* Se utilizar um editor de planilhas que não seja o Excel 2007 o sistema não funcionará.
+* Colocar uma data que não existe, por exemplo 31/06/2020, dará erro, pois o excel pode considerar o ano errado.
+* Colocar uma data final menor que a data inicial, aparecerá erro, a data final sempre deverá ser maior que a data inicial.
 * Preencher um quadrinho que não seja correspondente à cor. ***Obs.*** Você pode forçar um militar a tirar serviço no dia que vc quiser, porém preencha com o dia correto ou será gerado uma escala inconsistente com os quadrinhos. *Ex.* Se no dia 19/06/2020 (marrom) eu quero escalar uma pessoa, e escrevo esta data na aba *Vermelha*, isso o sistema não pode tratar, pois o quadrinho deveria estar escrito na aba *Marrom* e não na aba *Vermelha*.
-* Não fechar a planilha antes de executar o programa *Escala.exe*
+* Se não fechar a planilha antes de executar o programa *Escala.exe* o programa tentará substituir o arquivo de escala e não conseguirá, pois estaria aberto, é necessário que a planilha do excel esteja fechada antes de executar o programa *Escala.exe*.
 
 **Observação:** Todas as datas devem ser inseridas no formato **DD/MM/AAAA**, *Exemplo: 01/01/2021*.
 
