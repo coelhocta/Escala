@@ -29,7 +29,7 @@
 
 * **Contar quadrinhos Premios ou Lastro:** Para contar um quadrinho sem um dia para o militar, basta colocar a palavra ***Lastro*** dentro do quadrinho ao lado do nome dele, como se fosse um quadrinho com a data correta.
 
-* **Para que uma pessoa não concorra à escala Preta ou Marrom:** Escolha a aba correspondente ao quadrinho a qual o militar não deve tirar o serviço e acrescente um **\*** no início do nome, exemplo, se o militar ***2S SIN Fulano*** não pode concorrer à escala **Preta e Marrom** então vá na aba ***Preta*** e no lugar do nome, deve ficar desta forma: ***\* 2S SIN Fulano***, faça isso também na aba ***Marrom***.
+* **Para que uma pessoa não concorra à escala Preta ou Marrom:** Escolha a aba correspondente ao quadrinho a qual o militar não deve tirar o serviço e acrescente um **\*** no início do nome, exemplo, se o militar ***"2S SIN Fulano"*** não pode concorrer à escala **Preta e Marrom** então vá na aba ***Preta*** e no lugar do nome, deve ficar desta forma: ***"\* 2S SIN Fulano"***, faça isso também na aba ***Marrom***.
 
 * ***IMPORTANTE: ⭐️ SE O MILITAR NÃO CONCORRE À ESCALA PRETA OU MARROM, MESMO ASSIM O NOME DELE DEVE ESTAR NA CONTAGEM DOS QUADRINHOS PRETA E MARROM.⭐️***
 
