@@ -51,7 +51,12 @@
 
 ## For DEVs
 
+1. Instale as dependencias:
+
 ```sh
 pip install -r requirements.txt
-para converter py em exe, execute: `auto-py-to-exe`
+```
+2. Para criar o executavel de ***Escala.exe***, entre na pasta código `py` e execute:
+```sh
+auto-py-to-exe
 ```
